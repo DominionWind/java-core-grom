@@ -78,4 +78,18 @@ public abstract class Order {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+    protected boolean confirmToCity(String[] city) {
+        //String CityForOrder[] = {"Киев", "Одесса", "Днепр", "Харьков"};
+        for (int i = 0; i < city.length; i++)
+            if (getShipToCity() == city[i]) ;
+        return true;
+    }
+
+    protected boolean confirmFromCity(String[] city) {
+        //String CityForOrder[] = {"Киев", "Одесса", "Днепр", "Харьков"};
+        for (int i = 0; i < city.length; i++)
+            if (getShipFromCity() == city[i]) ;
+        return true;
+    }
 }

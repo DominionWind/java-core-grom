@@ -10,21 +10,36 @@ public class ElectronicsOrder extends Order {
         this.guaranteeMonths = guaranteeMonths;
     }
 
-    private boolean ConfirmCity() {
-        String CityForOrder[] = {"Киев", "Одесса", "Днепр", "Харьков"};
-        for (int i = 0; i < CityForOrder.length; i++)
-            if (getCustumerOwned().getCity() == (CityForOrder[i]);
-        return true;
-    }
-
     @Override
     void validateOrder() {
-        if (getBasePrice() >= 100 && ConfirmCity(getCustumerOwned().getCity()) = true && getCustumerOwned().getGender() == "female")
+        String[] cityFrom = {"Киев", "Одесса", "Днепр", "Харьков"};
+        String[] cityTo = {"Киев", "Одесса", "Днепр", "Харьков"};
+        if (getBasePrice() >= 100 && confirmFromCity(cityFrom) && confirmToCity(cityTo) && getCustumerOwned().getGender() == "female")
             confirmShipping();
     }
 
+    /*@Override
+    void calculatePrice() {
+        double price;
+        if(getShipFromCity() == "Киев" || getShipFromCity() == "Одесса" && getShipToCity() == "Киев" || getShipToCity() == "Одесса") {
+            price = getBasePrice() + getBasePrice()*0.1;
+            if (price > 1000)
+                price = price - price * 0.05;
+        }
+        price = getBasePrice() + getBasePrice() *0.15;
+            if(price > 1000)
+                price = price * 0.95;
+    }*/
+
     @Override
     void calculatePrice() {
+        String[] city = {"Киев", "Одесса"};
+        if (confirmToCity(city) && confirmFromCity(city))
+            setTotalPrice(getBasePrice() + getBasePrice() * 0.1);
 
+        setTotalPrice(getBasePrice() * 1.15);
+
+        if (getTotalPrice() > 1000)
+            setTotalPrice(getTotalPrice() * 0.95);
     }
 }
