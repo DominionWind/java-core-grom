@@ -13,7 +13,7 @@ public abstract class Order {
     private double totalPrice;
     private Customer customerOwned;
 
-    public Order(String itemName, Date dateCreated, String shipFromCity, String shipToCity, int basePrice, Customer custumerOwned) {
+    public Order(String itemName, Date dateCreated, String shipFromCity, String shipToCity, int basePrice, Customer customerOwned) {
         this.itemName = itemName;
         this.dateCreated = dateCreated;
         this.shipFromCity = shipFromCity;
@@ -22,11 +22,11 @@ public abstract class Order {
         this.customerOwned = customerOwned;
     }
 
-    abstract void validateOrder();
+    public abstract void validateOrder();
 
-    abstract void calculatePrice();
+    public abstract void calculatePrice();
 
-    void confirmShipping() {
+    public void confirmShipping() {
         if (getDateShipped() == null)
             setDateShipped(new java.util.Date());
     }
@@ -63,7 +63,7 @@ public abstract class Order {
         return totalPrice;
     }
 
-    public Customer getCustumerOwned() {
+    public Customer getCustomerOwned() {
         return customerOwned;
     }
 
