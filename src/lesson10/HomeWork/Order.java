@@ -27,8 +27,8 @@ public abstract class Order {
     public abstract void calculatePrice();
 
     public void confirmShipping() {
-        if (getDateShipped() == null)
-            setDateShipped(new java.util.Date());
+        if (dateShipped == null)
+            dateShipped = new Date();
     }
 
     public String getItemName() {
@@ -81,15 +81,19 @@ public abstract class Order {
 
     protected boolean confirmToCity(String[] city) {
         //String CityForOrder[] = {"Киев", "Одесса", "Днепр", "Харьков"};
-        for (int i = 0; i < city.length; i++)
+        for (int i = 0; i < city.length; i++){
             if (getShipToCity() == city[i]) ;
-        return true;
+            return true;
+        }
+        return false;
     }
 
     protected boolean confirmFromCity(String[] city) {
         //String CityForOrder[] = {"Киев", "Одесса", "Днепр", "Харьков"};
-        for (int i = 0; i < city.length; i++)
+        for (int i = 0; i < city.length; i++){
             if (getShipFromCity() == city[i]) ;
         return true;
+        }
+        return false;
     }
 }

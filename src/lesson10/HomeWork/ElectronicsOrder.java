@@ -10,28 +10,23 @@ public class ElectronicsOrder extends Order {
         this.guaranteeMonths = guaranteeMonths;
     }
 
-    @Override
+    /*@Override
     public void validateOrder() {
         String[] cityFrom = {"Киев", "Одесса", "Днепр", "Харьков"};
         String[] cityTo = {"Киев", "Одесса", "Днепр", "Харьков"};
-        if (getBasePrice() >= 100 && confirmFromCity(cityFrom) && confirmToCity(cityTo) && getCustomerOwned().getGender() == "Женский")
-            confirmShipping();
-    }
-
-    /*@Override
-    void calculatePrice() {
-        double price;
-        if(getShipFromCity() == "Киев" || getShipFromCity() == "Одесса" && getShipToCity() == "Киев" || getShipToCity() == "Одесса") {
-            price = getBasePrice() + getBasePrice()*0.1;
-            if (price > 1000)
-                price = price - price * 0.05;
+        if (getBasePrice() >= 100 && confirmFromCity(cityFrom) && confirmToCity(cityTo) && getCustomerOwned().getGender() == "Женский"){
+            setDateConfirmed(new Date());
         }
-        price = getBasePrice() + getBasePrice() *0.15;
-            if(price > 1000)
-                price = price * 0.95;
     }*/
 
     @Override
+    public void validateOrder() {
+        if ((getShipFromCity() == "Киев" || getShipFromCity() == "Одесса" || getShipFromCity() == "Днепр" || getShipFromCity() == "Харьков") && (getShipToCity() == "Киев" || getShipToCity() == "Одесса" || getShipToCity() == "Днепр" || getShipToCity() == "Харьков") && getBasePrice() >= 100 && getCustomerOwned().getGender() == "Женский") {
+            setDateConfirmed(new Date());
+        }
+    }
+
+    /*@Override
     public void calculatePrice() {
         String[] city = {"Киев", "Одесса"};
         if (confirmToCity(city) && confirmFromCity(city))
@@ -41,5 +36,25 @@ public class ElectronicsOrder extends Order {
 
         if (getTotalPrice() > 1000)
             setTotalPrice(getTotalPrice() * 0.95);
-    }
+    }*/
+
+    @Override
+    public void calculatePrice() {
+        //String[] city = {"Киев", "Одесса"};
+        double price = getBasePrice();
+        double delivery;
+        double discount = 0;
+        if (getShipToCity() == "Киев" || getShipToCity() == "Одесса"){
+            delivery = price * 0.1;
+        } else
+            delivery = price * 0.15;
+
+            if (price > 1000) {
+                discount = (price + delivery) * 0.05;
+            }
+            else {
+            discount = 0;
+            }
+            setTotalPrice(price + delivery - discount);
+        }
 }

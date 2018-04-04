@@ -10,12 +10,20 @@ public class Demo {
         Customer customer3 = new Customer("Sveta", "Днепр", "Женский");
         Customer customerUltimate = new Customer("Иван Федорович Крузенштерн Человек и Пароход", "Юпитер", "Кот");
 
-        ElectronicsOrder electronicsOrder1 = new ElectronicsOrder("TV", new Date(), "Киев", "Днепр", 2000, customer1, 36);
+        ElectronicsOrder electronicsOrder1 = new ElectronicsOrder("TV", new Date(), "Киев", "Одесса", 2000, customer1, 36);
         ElectronicsOrder electronicsOrder2 = new ElectronicsOrder("Tetris", new Date(), "Киев", "Днепр", 10, customer2, 32167);
 
         FurnitureOrder furnitureOrder1 = new FurnitureOrder("Стол", new Date(), "Киев", "Киев", 700, customer3, "322");
-        FurnitureOrder furnitureOrderUltimate = new FurnitureOrder("Budka dlia Sharika and stoilo dlia bud4ka", new Date(), "Prostokvashino", "Dom miliu Dom", 100500, customerUltimate, "14/88");
+        FurnitureOrder furnitureOrderUltimate = new FurnitureOrder("Budka dlia Sharika", new Date(), "Prostokvashino", "Dom miliu Dom", 100500, customerUltimate, "14/88");
 
-        System.out.println(furnitureOrderUltimate.getItemName());
+        electronicsOrder1.calculatePrice();
+        furnitureOrderUltimate.calculatePrice();
+
+        System.out.println(electronicsOrder1.getTotalPrice());
+        System.out.println(electronicsOrder2.getTotalPrice());
+        System.out.println(furnitureOrder1.getTotalPrice());
+        System.out.println(furnitureOrderUltimate.getTotalPrice());
+
+
     }
 }
