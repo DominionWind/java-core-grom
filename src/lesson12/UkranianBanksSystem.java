@@ -1,6 +1,8 @@
 package lesson12;
 
 public class UkranianBanksSystem implements BankSystem {
+    public UkranianBanksSystem() {
+    }
 
     //private String withdrawalEroMsq = "Can`t withdraw money " + amount + " from user " + user.toString()
 
@@ -22,7 +24,9 @@ public class UkranianBanksSystem implements BankSystem {
 
     @Override
     public void fund(User user, int amount) {
-        //TODO homeWork
+        if (!checkFund(user, amount))
+            return;
+        user.setBalance(user.getBalance() + amount);
     }
 
     @Override
@@ -40,18 +44,31 @@ public class UkranianBanksSystem implements BankSystem {
         //TODO homeWork
     }
 
-    private void printWithdrawalEroMsq(User user, int amount) {
-        System.err.println("Can`t withdraw money " + amount + " from user " + user.toString());
+    private void printWithdrawalErrorMsg(int amount, User user) {
+        System.err.println("Can't withdraw money " + amount + " from user" + user.toString());
     }
 
+    private void printFundErrorMsg(int amount, User user) {
+        System.err.println("Can't fund money " + amount + " to user" + user.toString());
+    }
+
+    private boolean checkFund(User user, int amount) {
+        if (amount + user.getBank().getCommission(amount) > user.getBank().getLimitOfFunding()) {
+            printFundErrorMsg(amount, user);
+            return false;
+        }
+        return true;
+    }
+
+
     private boolean checkWithdraw(User user, int amount) {
-        return !checkWithdrawLimits(user, amount, user.getBank().getLimitOfFunding()) &&
-                !checkWithdrawLimits(user, amount, user.getBalance());
+        return checkWithdrawLimits(user, amount, user.getBank().getLimitOfFunding()) &&
+                checkWithdrawLimits(user, amount, user.getBalance());
     }
 
     private boolean checkWithdrawLimits(User user, int amount, double limit) {
         if (amount + user.getBank().getCommission(amount) > limit) {
-            printWithdrawalEroMsq(user, amount);
+            printWithdrawalErrorMsg(amount, user);
             return false;
         }
         return true;

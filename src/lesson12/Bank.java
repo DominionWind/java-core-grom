@@ -5,31 +5,32 @@ public abstract class Bank {
     private long id;
     private String bankCountry;
     private Currency currency;
-    private int numbersOfEmploees;
-    private double avrSalaryOfEmploee;
+    private int numberOfEmployees;
+    private double avrSalaryOfEmployee;
     private long rating;
     private long totalCapital;
 
-    public Bank(long id, String bankCountry, Currency currency, int numbersOfEmploees, double avrSalaryOfEmploee, long rating, long totalCapital) {
+    public Bank(long id, String bankCountry, Currency currency, int numberOfEmployees, double avrSalaryOfEmployee, long rating, long totalCapital) {
         this.id = id;
         this.bankCountry = bankCountry;
         this.currency = currency;
-        this.numbersOfEmploees = numbersOfEmploees;
-        this.avrSalaryOfEmploee = avrSalaryOfEmploee;
+        this.numberOfEmployees = numberOfEmployees;
+        this.avrSalaryOfEmployee = avrSalaryOfEmployee;
         this.rating = rating;
         this.totalCapital = totalCapital;
     }
 
-    public abstract int getLimitOfWindrawal();
+    public abstract int getLimitOfWithdrawal();
+
     public abstract int getLimitOfFunding();
+
     public abstract double getMonthlyRate();
+
     public abstract double getCommission(int amount);
 
-
-    public double moneyPaidMonthlyForSalary(){
-        return numbersOfEmploees * avrSalaryOfEmploee;
+    public double moneyPaidMonthlyForSalary() {
+        return numberOfEmployees * avrSalaryOfEmployee;
     }
-
 
     public long getId() {
         return id;
@@ -55,20 +56,20 @@ public abstract class Bank {
         this.currency = currency;
     }
 
-    public int getNumbersOfEmploees() {
-        return numbersOfEmploees;
+    public int getNumberOfEmployees() {
+        return numberOfEmployees;
     }
 
-    public void setNumbersOfEmploees(int numbersOfEmploees) {
-        this.numbersOfEmploees = numbersOfEmploees;
+    public void setNumberOfEmployees(int numberOfEmployees) {
+        this.numberOfEmployees = numberOfEmployees;
     }
 
-    public double getAvrSalaryOfEmploee() {
-        return avrSalaryOfEmploee;
+    public double getAvrSalaryOfEmployee() {
+        return avrSalaryOfEmployee;
     }
 
-    public void setAvrSalaryOfEmploee(double avrSalaryOfEmploee) {
-        this.avrSalaryOfEmploee = avrSalaryOfEmploee;
+    public void setAvrSalaryOfEmployee(double avrSalaryOfEmployee) {
+        this.avrSalaryOfEmployee = avrSalaryOfEmployee;
     }
 
     public long getRating() {

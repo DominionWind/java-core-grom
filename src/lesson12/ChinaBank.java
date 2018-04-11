@@ -1,29 +1,29 @@
 package lesson12;
 
-public class USBank extends Bank {
+public class ChinaBank extends Bank {
 
-    public USBank(long id, String bankCountry, Currency currency, int numbersOfEmploees, double avrSalaryOfEmploee, long rating, long totalCapital) {
+    public ChinaBank(long id, String bankCountry, Currency currency, int numbersOfEmploees, double avrSalaryOfEmploee, long rating, long totalCapital) {
         super(id, bankCountry, currency, numbersOfEmploees, avrSalaryOfEmploee, rating, totalCapital);
     }
 
     @Override
     public int getLimitOfWithdrawal() {
         if (getCurrency() == Currency.USD)
-            return 1000;
-        return 1200;
+            return 100;
+        return 150;
     }
 
     @Override
     public int getLimitOfFunding() {
         if (getCurrency() == Currency.EUR)
-            return 10000;
-        return Integer.MAX_VALUE;
+            return 5000;
+        return 10000;
     }
 
     @Override
     public double getMonthlyRate() {
         if (getCurrency() == Currency.EUR)
-            return 0.02;
+            return 0;
         else
             return 0.01;
     }
@@ -32,14 +32,14 @@ public class USBank extends Bank {
     public double getCommission(int amount) {
         if (getCurrency() == Currency.USD) {
             if (amount <= 1000)
-                return 0.05;
+                return 0.03;
             else
-                return 0.07;
+                return 0.05;
         } else {
             if (amount <= 1000)
-                return 0.06;
+                return 0.1;
             else
-                return 0.08;
+                return 0.11;
         }
     }
 }
