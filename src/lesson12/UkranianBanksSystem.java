@@ -1,9 +1,6 @@
 package lesson12;
 
 public class UkranianBanksSystem implements BankSystem {
-    public UkranianBanksSystem() {
-    }
-
     //private String withdrawalEroMsq = "Can`t withdraw money " + amount + " from user " + user.toString()
 
     @Override
@@ -33,15 +30,20 @@ public class UkranianBanksSystem implements BankSystem {
     public void transferMoney(User fromUser, User toUser, int amount) {
         if (!checkWithdraw(fromUser, amount))
             return;
-
-        //TODO check fund rules
-        fromUser.setBalance(fromUser.getBalance() - amount - amount * fromUser.getBank().getCommission(amount));
-        //TODO withdraw and fund
+        if (!checkFund(toUser, amount))
+            return;
+        if (fromUser.getBank().getCurrency() == toUser.getBank().getCurrency()) {
+            fromUser.setBalance(fromUser.getBalance() - amount - amount * fromUser.getBank().getCommission(amount));
+            toUser.setBalance(toUser.getBalance() + amount - amount * toUser.getBank().getCommission(amount));
+        } else
+            System.out.println("FATAL ERROR!!! TRANSACTION NOT GOING!!! INDIAN CODE NOT WORKING");
     }
 
     @Override
     public void paySalary(User user) {
-        //TODO homeWork
+        if (!checkFund(user, user.getSalary()))
+            return;
+        user.setBalance(user.getBalance() + user.getSalary() - user.getSalary() * user.getBank().getCommission(user.getSalary()));
     }
 
     private void printWithdrawalErrorMsg(int amount, User user) {
@@ -59,7 +61,6 @@ public class UkranianBanksSystem implements BankSystem {
         }
         return true;
     }
-
 
     private boolean checkWithdraw(User user, int amount) {
         return checkWithdrawLimits(user, amount, user.getBank().getLimitOfFunding()) &&
