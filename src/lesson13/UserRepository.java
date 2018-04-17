@@ -7,21 +7,6 @@ public class UserRepository {
         return users;
     }
 
-    /*private int count() {
-        int count = 0;
-        for (int i = 0; i < getUsers().length; i++)
-            if (i != 0)
-                count++;
-        return count;
-    }
-
-    public long[] getUserIds() {
-        long userId[] = new long[count()];
-        for (int i = 0; i < count(); i++)
-            userId[i] = users[i].getId();
-        return userId;
-    }*/
-
     public String[] getUserNames() {
         String userName[] = new String[getUsers().length];
         for (int i = 0; i < getUsers().length; i++)

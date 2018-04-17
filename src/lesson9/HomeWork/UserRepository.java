@@ -1,30 +1,11 @@
 package lesson9.HomeWork;
 
 public class UserRepository {
-    private User[] users;
-
-    public UserRepository(User[] users) {
-        this.users = users;
-    }
+    private User[] users = new User[5];
 
     public User[] getUsers() {
         return users;
     }
-
-    /*private int count() {
-        int count = 0;
-        for (int i = 0; i < getUsers().length; i++)
-            if (i != 0)
-                count++;
-        return count;
-    }
-
-    public long[] getUserIds() {
-        long userId[] = new long[count()];
-        for (int i = 0; i < count(); i++)
-            userId[i] = users[i].getId();
-        return userId;
-    }*/
 
     public String[] getUserNames() {
         String userName[] = new String[getUsers().length];
@@ -52,8 +33,9 @@ public class UserRepository {
                     n++;
         long[] userId = new long[n];
         for (User user : getUsers())
-            if (user != null)
+            if (user != null){
                 userId[i] = user.getId();
+                return userId;}
         i++;
         return userId;
     }
@@ -110,6 +92,7 @@ public class UserRepository {
                     users[i] = user;
             return user;
         }
+        System.out.println("FATAL ERROR!!! User can`t be null!!!");
         return null;
     }
 
@@ -129,4 +112,5 @@ public class UserRepository {
         }
         return null;
     }*/
+
 }
