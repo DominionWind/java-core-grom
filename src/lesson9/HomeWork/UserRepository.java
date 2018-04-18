@@ -33,9 +33,10 @@ public class UserRepository {
                     n++;
         long[] userId = new long[n];
         for (User user : getUsers())
-            if (user != null){
+            if (user != null) {
                 userId[i] = user.getId();
-                return userId;}
+                return userId;
+            }
         i++;
         return userId;
     }
@@ -86,13 +87,15 @@ public class UserRepository {
     }
 
     public User update(User user) {
-        if (findById(user.getId()) != null) {
-            for (int i = 0; i < getUsers().length; i++)
-                if (users[i] == findById(user.getId()))
-                    users[i] = user;
-            return user;
+        if (user == null)
+            return null;
+        for (int i = 0; i < users.length; i++) {
+            if (users[i] == findById(user.getId())) {
+                users[i] = user;
+                return users[i];
+            }
+            return null;
         }
-        System.out.println("FATAL ERROR!!! User can`t be null!!!");
         return null;
     }
 

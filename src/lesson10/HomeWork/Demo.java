@@ -24,6 +24,26 @@ public class Demo {
         System.out.println(furnitureOrder1.getTotalPrice());
         System.out.println(furnitureOrderUltimate.getTotalPrice());
 
+        System.out.println();
+        System.out.println("----------------------");
+        System.out.println("Test started");
+        Customer test1 = new Customer(null, null,null);
+        ElectronicsOrder testOrder = new ElectronicsOrder("TV", new Date(), "Киев", "Одесса", 2000, test1, 36);
+        System.out.println(test1.getName());
+        System.out.println(testOrder.getDateConfirmed());
+        ElectronicsOrder testOrder2 = new ElectronicsOrder(null,null,null,null,2000,test1,36);
+        System.out.println(testOrder2.getDateConfirmed());
+        ElectronicsOrder testOrder3 = new ElectronicsOrder(null,null,null,null,2000,customer1,36);
+        System.out.println(testOrder3.getDateConfirmed());
+        System.out.println(testOrder.getTotalPrice());
+        System.out.println(testOrder2.getTotalPrice());
+        System.out.println(testOrder3.getTotalPrice());
+        System.out.println(electronicsOrder1.getTotalPrice()+ " EO1 Total Price");
+        System.out.println(electronicsOrder2.getTotalPrice() + " EO2 Total Price");
+        ElectronicsOrder testOrder4 = new ElectronicsOrder("TV", new Date(), "Киев", "Одесса", 999999999, customer1, 36);
+        testOrder4.calculatePrice();//Ура. У нас переполнение. Как лечить ХЗ.
+        System.out.println(testOrder4.getTotalPrice()+ " TO4 Total Price");
+
 
     }
 }

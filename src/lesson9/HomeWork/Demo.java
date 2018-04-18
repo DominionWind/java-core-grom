@@ -115,6 +115,7 @@ public class Demo {
         userRepository.delete(88);
         userRepository.delete(78);
         userRepository.delete(8);
+        userRepository.delete(0);
         System.out.println(Arrays.deepToString(userRepository.getUsers()));
     }
 }
