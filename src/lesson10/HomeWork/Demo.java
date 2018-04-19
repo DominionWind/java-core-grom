@@ -44,6 +44,11 @@ public class Demo {
         testOrder4.calculatePrice();//Ура. У нас переполнение. Как лечить ХЗ.
         System.out.println(testOrder4.getTotalPrice()+ " TO4 Total Price");
 
+        System.out.println("-------------------------");
+        FurnitureOrder testFurniche = new FurnitureOrder(null,null,null,null,2000,test1,null);
+        System.out.println(testFurniche.getDateConfirmed());
+        testFurniche.calculatePrice();
+        System.out.println(testFurniche.getTotalPrice());
 
     }
 }
