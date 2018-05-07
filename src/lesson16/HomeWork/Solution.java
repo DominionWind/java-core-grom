@@ -4,6 +4,8 @@ public class Solution {
     public static void main(String[] args) {
         System.out.println(minWord("Some text is tuping right here"));
         System.out.println(maxWord("Some text is tuping right here"));
+        System.out.println(minWord("           "));
+        System.out.println(maxWord("           "));
 
     }
 
@@ -30,6 +32,7 @@ public class Solution {
         String maxWord = null;
         int max = worlds[0].length();
 
+        if (input != null && !input.isEmpty())
         for (int i = 0; i < input.length(); i++) {
             if (worlds[i].length() > max) {
                 max = worlds[i].length();
@@ -47,6 +50,7 @@ public class Solution {
         String minWord = null;
         int min = worlds[0].length();
 
+        if (input != null && !input.isEmpty())
         for (int i = 0; i < input.length(); i++) {
             if (worlds[i].length() < min) {
                 min = worlds[i].length();
