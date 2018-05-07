@@ -87,10 +87,10 @@ public class UserRepository {
     }
 
     public User update(User user) {
-        if (user == null)
+        if (user != null)
             return null;
         for (int i = 0; i < users.length; i++) {
-            if (users[i] == findById(user.getId())) {
+            if (users[i].equals(findById(user.getId()))){
                 users[i] = user;
                 return users[i];
             }
@@ -99,10 +99,11 @@ public class UserRepository {
         return null;
     }
 
+
     public void delete(long id) {
         if (findById(id) != null)
             for (int i = 0; i < users.length; i++)
-                if (users[i] == findById(id))
+                if (users[i].equals(findById(id)))
                     users[i] = null;
     }
 

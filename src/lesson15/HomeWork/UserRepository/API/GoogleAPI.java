@@ -12,7 +12,7 @@ public class GoogleAPI implements API {
     public Room[] findRooms(int price, int persons, String city, String hotel) {
         int count = 0;
         for (Room room : rooms) {
-            if (room != null && price == room.getPrice() && persons == room.getPersons() && city.equals(room.getCityName()) && hotel == room.getHotelName()) {
+            if (room != null && price == room.getPrice() && persons == room.getPersons() && city.equals(room.getCityName()) && hotel.equals(room.getHotelName())) {
                 count++;
             }
         }
@@ -20,7 +20,7 @@ public class GoogleAPI implements API {
         Room[] rightRoom = new Room[count];
         int i = 0;
         for (Room room : rooms) {
-            if (room != null && price == room.getPrice() && persons == room.getPersons() && city == room.getCityName() && hotel == room.getHotelName()) {
+            if (room != null && price == room.getPrice() && persons == room.getPersons() && city.equals(room.getCityName()) && hotel.equals(room.getHotelName())) {
                 rightRoom[i] = room;
                 i++;
             }
