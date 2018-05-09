@@ -12,8 +12,8 @@ public class Solution {
 //        System.out.println(minWord("           "));
 //        System.out.println(maxWord("           "));
 
-//        System.out.println(validate("http://someMail@grom.com"));
-//        System.out.println(validate("http://some123Mail@grom.com"));
+        System.out.println(validate("http://someMail@grom.com"));
+        System.out.println(validate("http://some123Mail@grom.com"));
 
 //        System.out.println(dogTest("http://someMail@grom.com"));
 //        System.out.println(dogTest("http://someMail@@grom.com"));
@@ -112,6 +112,9 @@ public class Solution {
                 worldsWalid(devText);
                 System.out.println(dogTest(devText) + "3");
                 System.out.println(worldsWalid(devText) + "4");
+            }
+            else {
+                return false;
             }
         }
         return false;
