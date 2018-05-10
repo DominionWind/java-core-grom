@@ -11,9 +11,9 @@ public class Solution {
 //        System.out.println(maxWord("Some text is tuping right here"));
 //        System.out.println(minWord("           "));
 //        System.out.println(maxWord("           "));
-
-        System.out.println(validate("http://someMail@grom.com"));
-        System.out.println(validate("http://some123Mail@grom.com"));
+//        System.out.println(mostCountedWord(" т т т т мыла мыла мыла авто"));
+//        System.out.println(validate("http://someMail@grom.com"));
+//        System.out.println(validate("http://some123Mail@grom.com"));
 
 //        System.out.println(dogTest("http://someMail@grom.com"));
 //        System.out.println(dogTest("http://someMail@@grom.com"));
@@ -44,54 +44,116 @@ public class Solution {
     public static String maxWord(String input) {
         String[] worlds = input.split(" ");
         String maxWord = null;
-        int max = worlds[0].length();
 
-        if (input != null && !input.isEmpty() && input.length() > 0)
-            for (int i = 0; i < input.length(); i++) {
-                if (worlds[i].length() > max && worlds[i].length() > 0 && wordCheck(worlds[i])) {
-                    max = worlds[i].length();
-                    for (int j = 0; j < input.length(); j++) {
-                        if (worlds[j].length() == max && worlds[j].length() > 0 && wordCheck(worlds[j]))
-                            return maxWord = worlds[j];
-                    }
-                }
+        if (worlds.length == 0) {
+            return null;
+        }
+
+        for (String world : worlds) {//зачем этот фор я хз. Должно работать без него но проверять лень.
+            if (world.length() > 0 && wordCheck(world)) {
+                maxWord = world;
+                break;
             }
+        }
+
+        if (maxWord == null) {
+            return null;
+        }
+        for (String world : worlds) {
+            for (String w : worlds)
+                if (w.length() > world.length() && wordCheck(w))
+                    maxWord = w;
+        }
         return maxWord;
     }
 
     public static String minWord(String input) {
         String[] worlds = input.split(" ");
-        String minWord = null;
-        int min = worlds[0].length();
+        String minWorld = null;
 
-        if (input != null && !input.isEmpty())
-            for (int i = 0; i < input.length(); i++) {
-                if (worlds[i].length() < min && worlds[i].length() > 0 && wordCheck(worlds[i])) {
-                    min = worlds[i].length();
-                    for (int j = 0; j < input.length(); j++) {
-                        if (worlds[j].length() == min && worlds[j].length() > 0 && wordCheck(worlds[j]))
-                            return minWord = worlds[j];
-                    }
-                }
+        if (worlds.length == 0) {
+            return null;
+        }
+        for (String world : worlds) {//Аналогичто. ХЗ зачем этот фор. А впрочем может он и нужен.
+            if (world.length() > 0 && wordCheck(world)) {
+                minWorld = world;
+                break;
             }
-        return minWord;
-    }
+        }
 
-    public static String mostCountedWorld(String input) {
+        if (minWorld == null) {
+            return null;
+        }
+        for (String world : worlds) {
+            for (String w : worlds)
+                if (w.length() < world.length() && wordCheck(w))
+                    minWorld = w;
+        }
+
+        return minWorld;
+    }
+//    public static String maxWord(String input) { // первый вариант. Почти рабочий. Только с налами не очень дружил.
+//        if (input == null){
+//            return null;}
+//        String[] worlds = input.split(" ");
+//        String maxWord = null;
+//        if (worlds == null){
+//            return null;
+//        }
+//        int max = worlds[0].length();
+//        for (int i = 0; i < input.length(); i++) {
+//            if (worlds[i].length() > max && wordCheck(worlds[i])) {
+//                max = worlds[i].length();
+//                for (int j = 0; j < input.length(); j++) {
+//                    if (worlds[j].length() == max && wordCheck(worlds[j]))
+//                        return maxWord = worlds[j];
+//                    }
+//                }
+//            }
+//        return maxWord;
+//    }
+//
+//    public static String minWord(String input) {
+//        if (input == null){
+//            return null;
+//        }
+//        String[] worlds = input.split(" ");
+//        String minWord = null;
+//        if (worlds == null){
+//            return null;
+//        }
+//        int min = worlds[0].length();
+//        for (int i = 0; i < input.length(); i++) {
+//            if (worlds[i].length() < min && wordCheck(worlds[i])) {
+//                min = worlds[i].length();
+//                for (int j = 0; j < input.length(); j++) {
+//                    if (worlds[j].length() == min && wordCheck(worlds[j]))
+//                        return minWord = worlds[j];
+//                    }
+//                }
+//            }
+//        return minWord;
+//    }
+
+    public static String mostCountedWord(String input) {
+        if (input.length() == 0) {
+            return null;
+        }
+
         String[] worlds = input.split(" ");
         int count = 0;
         int maxCount = 0;
         String reiterationWord = null;
 
-
         for (String word : worlds) {
             for (String w : worlds) {
-                if (w.equals(word) && word.length() > 0 && wordCheck(word))
+                if (word.equals(w) && wordCheck(w)) {
                     count++;
-            }
-            if (count > maxCount) {
-                maxCount = count;
-                reiterationWord = word;
+                    if (count > maxCount) {
+                        maxCount = count;
+                        reiterationWord = word;
+                    }
+                }
             }
         }
         return reiterationWord;
@@ -112,8 +174,7 @@ public class Solution {
                 worldsWalid(devText);
                 System.out.println(dogTest(devText) + "3");
                 System.out.println(worldsWalid(devText) + "4");
-            }
-            else {
+            } else {
                 return false;
             }
         }
