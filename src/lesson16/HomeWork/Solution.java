@@ -135,29 +135,54 @@ public class Solution {
 //        return minWord;
 //    }
 
-    public static String mostCountedWord(String input) {
-        if (input.length() == 0) {
+    public static String mostCountedWord(String input) {//https://www.geeksforgeeks.org/count-occurrences-of-a-word-in-string/
+        if (input == null || input.isEmpty()) {
             return null;
         }
 
-        String[] worlds = input.split(" ");
-        int count = 0;
+        String[] words = input.split("\\s");
+        //int count = 0; Ух я долго этот момент осознавал.
         int maxCount = 0;
-        String reiterationWord = null;
+        String mostRepetebleWord = null;
 
-        for (String word : worlds) {
-            for (String w : worlds) {
-                if (word.equals(w) && wordCheck(w)) {
+        for (int i = 0; i < words.length; i++) {
+            int count = 0;// Таки каунт нужно тут вводить а не перед фор. Иначе будет выводить всегда последнее слово.
+            for (int j = 0; j < words.length; j++) {
+                if (words[i].equals(words[j]) && wordCheck(words[i])) {
                     count++;
-                    if (count > maxCount) {
-                        maxCount = count;
-                        reiterationWord = word;
-                    }
                 }
             }
+            if (count > maxCount) {
+                maxCount = count;
+                mostRepetebleWord = words[i];
+            }
         }
-        return reiterationWord;
+        return mostRepetebleWord;
     }
+
+//    public static String mostCountedWord(String input) {
+//        if (input.length() == 0) {
+//            return null;
+//        }
+//
+//        String[] worlds = input.split(" ");
+//        int count = 0;
+//        int maxCount = 0;
+//        String reiterationWord = null;
+//
+//        for (String word : worlds) {
+//            for (String w : worlds) {
+//                if (word.equals(w) && wordCheck(w)) {
+//                    count++;
+//                    if (count > maxCount) {
+//                        maxCount = count;
+//                        reiterationWord = word;
+//                    }
+//                }
+//            }
+//        }
+//        return reiterationWord;
+//    }
 
     public static boolean validate(String adress) { //http://www.someMail@grom.com
         if (adress.endsWith(".com") || adress.endsWith(".net") || adress.endsWith(".org")) {
