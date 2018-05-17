@@ -3,9 +3,9 @@ package lesson16.HomeWork;
 public class MailValidate {
     public static void main(String[] args) {
 
-        System.out.println(validate("http://someMail@grom.com"));
-        System.out.println(validate("http://some123Mail@grom.com"));
-
+//        System.out.println(validate("http://someMail@grom.com"));
+//        System.out.println(validate("http://some123Mail@grom.com"));
+        System.out.println(validate("http://www.someMail@grom.com"));
 
     }
 
@@ -18,29 +18,27 @@ public class MailValidate {
         if (adress.endsWith(".com") || adress.endsWith(".net") || adress.endsWith(".org")) {
             String text = adress.substring(0, adress.length() - 4);
             if (adress.startsWith("http://")) {
-                if (adress.startsWith("www.")){
-                    text = text.substring(4);
-                }
                 String devText = text.substring(7);
-                if (dogTest(devText) && worldsWalid(devText)){
-                    return true;
+                if (devText.startsWith("www.")) {
+                    devText = devText.substring(4);
                 }
-//                dogTest(devText);
-//                worldsWalid(devText);
-//                System.out.println(dogTest(devText) + "1");
-//                System.out.println(worldsWalid(devText) + "2");
+                String[] words = devText.split("@");
+                if (dogTest(devText) && worldsWalid(devText)) {
+                    if (wordCheck(words[0]) && wordCheck(words[1])) {
+                        return true;
+                    }
+                }
             } else if (adress.startsWith("https://")) {
                 String devText = text.substring(8);
-                if (adress.startsWith("www.")){
-                    text = text.substring(4);
+                if (devText.startsWith("www.")) {
+                    devText = devText.substring(4);
                 }
-                if (dogTest(devText)&&worldsWalid(devText)){
-                    return true;
+                String[] words = devText.split("@");
+                if (dogTest(devText) && worldsWalid(devText)) {
+                    if (wordCheck(words[0]) && wordCheck(words[1])) {
+                        return true;
+                    }
                 }
-//                dogTest(devText);
-//                worldsWalid(devText);
-//                System.out.println(dogTest(devText) + "3");
-//                System.out.println(worldsWalid(devText) + "4");
             } else {
                 return false;
             }
@@ -61,12 +59,6 @@ public class MailValidate {
         }
         return true;
     }
-
-//    private static boolean znakTest(String input) {
-//        String[] test = input.split("://");
-//        if (test.length > 1) ;
-//        return false;
-//    }
 
     private static boolean worldsWalid(String input) {
         String[] worlds = input.split("@");
