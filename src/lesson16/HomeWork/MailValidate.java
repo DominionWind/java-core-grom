@@ -23,10 +23,8 @@ public class MailValidate {
                     devText = devText.substring(4);
                 }
                 String[] words = devText.split("@");
-                if (dogTest(devText) && worldsWalid(devText)) {
-                    if (wordCheck(words[0]) && wordCheck(words[1])) {
-                        return true;
-                    }
+                if (dogTest(devText) && worldsWalid(devText) && wordCheck(words[1]+words[0])) {
+                    return true;
                 }
             } else if (adress.startsWith("https://")) {
                 String devText = text.substring(8);
@@ -34,13 +32,12 @@ public class MailValidate {
                     devText = devText.substring(4);
                 }
                 String[] words = devText.split("@");
-                if (dogTest(devText) && worldsWalid(devText)) {
-                    if (wordCheck(words[0]) && wordCheck(words[1])) {
-                        return true;
-                    }
+                if (dogTest(devText) && worldsWalid(devText)&&wordCheck(words[0]+words[1])) {
+                    return true;
                 }
             } else {
                 return false;
+
             }
         }
         return false;

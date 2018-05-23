@@ -6,6 +6,7 @@ public class Valid {
     public static void main(String[] args) {
 
         System.out.println(validate("http://www.someMail@grom.com"));
+        System.out.println(validate("http://someMail@grom.com"));
         System.out.println(validate("http://some123Mail@grom.com"));
 
         System.out.println(validate("http://someMail@@grom.com"));
@@ -22,20 +23,25 @@ public class Valid {
             return false;
         }
 
-        if (adress.endsWith(".com") || adress.endsWith(".net") || adress.endsWith(".org")){
-            adress = adress.substring(0,adress.length()-4);
+        if (adress.endsWith(".com") || adress.endsWith(".net") || adress.endsWith(".org")) {
+            adress = adress.substring(0, adress.length() - 4);
             if (adress.startsWith("http://") || adress.startsWith("https://")) {
                 String[] words = adress.split("://");
-                if (words[1].startsWith("www.")){
-                    words[1]=words[1].substring(4);
+                if (words[1].startsWith("www.")) {
+                    words[1] = words[1].substring(4);
                 }
-                
+                String[]fin = words[1].split("@");
+                if (nullEmptyCheck(words[1]))
+                if (dogTest(words[1])&&worldsWalid(words[1])&&wordCheck(fin[0]+fin[1])){
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         }
-
         return false;
     }
-
 
     private static boolean nullEmptyCheck(String input) {
         if (input == null || input.isEmpty()) {

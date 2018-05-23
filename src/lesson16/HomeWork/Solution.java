@@ -41,28 +41,22 @@ public class Solution {
         return count;
     }
 
-    public static String maxWord(String input) {
-        String[] worlds = input.split(" ");
+    static String maxWord(String input) {
+        String[] results = input.split(" ");
         String maxWord = null;
+        if (results.length == 0) return null;
 
-        if (worlds.length == 0) {
-            return null;
-        }
-
-        for (String world : worlds) {//зачем этот фор я хз. Должно работать без него но проверять лень.
-            if (world.length() > 0 && wordCheck(world)) {
-                maxWord = world;
+        for (String result : results) {
+            if (result.length() > 0 && wordCheck(result)) {
+                maxWord = result;
                 break;
             }
         }
 
-        if (maxWord == null) {
-            return null;
-        }
-        for (String world : worlds) {
-            for (String w : worlds)
-                if (w.length() > world.length() && wordCheck(w))
-                    maxWord = w;
+        if (maxWord == null) return null;
+
+        for (String result : results) {
+            if (result.length() > maxWord.length() && wordCheck(result)) maxWord = result;
         }
         return maxWord;
     }
@@ -74,7 +68,7 @@ public class Solution {
         if (worlds.length == 0) {
             return null;
         }
-        for (String world : worlds) {//Аналогичто. ХЗ зачем этот фор. А впрочем может он и нужен.
+        for (String world : worlds) {
             if (world.length() > 0 && wordCheck(world)) {
                 minWorld = world;
                 break;
@@ -185,25 +179,29 @@ public class Solution {
 //    }
 
     public static boolean validate(String adress) { //http://www.someMail@grom.com
-        if (adress.endsWith(".com") || adress.endsWith(".net") || adress.endsWith(".org")) {
-            String text = adress.substring(0, adress.length() - 4);
-            if (adress.startsWith("http://")) {
-                String devText = text.substring(7);
-                dogTest(devText);
-                worldsWalid(devText);
-                System.out.println(dogTest(devText) + "1");
-                System.out.println(worldsWalid(devText) + "2");
-            } else if (adress.startsWith("https://")) {
-                String devText = text.substring(8);
-                dogTest(devText);
-                worldsWalid(devText);
-                System.out.println(dogTest(devText) + "3");
-                System.out.println(worldsWalid(devText) + "4");
-            } else {
-                return false;
+        if (!adress.startsWith("http://") && !adress.startsWith("https://"))
+            return false;
+
+        if (!adress.endsWith(".com") && !adress.endsWith(".net") && !adress.endsWith(".org"))
+            return false;
+
+        adress = adress.replace("www.", "");
+        adress = isValid(adress, new String[]{"http://", "https://"});
+        adress = isValid(adress, new String[]{".com", ".net", ".org"});
+
+        return adress != null && wordCheck(adress);
+
+
+    }
+
+    private static String isValid(String adress, String[] parts) {
+        for (String part : parts) {
+            if (adress.contains(part)) {
+                adress = adress.replace(part, "");
+                return adress;
             }
         }
-        return false;
+        return null;
     }
 
     private static boolean dogTest(String input) {
@@ -239,11 +237,10 @@ public class Solution {
     private static boolean wordCheck(String input) {
         char[] letters = input.toCharArray();
         for (char letter : letters) {
-            if (!Character.isLetter(letter)) {
+            if (!Character.isLetter(letter) && !Character.isDigit(letter)) {
                 return false;
             }
         }
         return true;
     }
 }
-
