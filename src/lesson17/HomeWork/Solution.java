@@ -6,7 +6,6 @@ public class Solution {
     public static void main(String[] args) {
         String text = ("123 954g gfd -20g 154 894 -3");
         System.out.println(Arrays.toString(findNumbers(text)));
-
     }
 
     public static int[] findNumbers(String text) {
