@@ -6,7 +6,12 @@ public class File {
     private String format;
     private long size;
 
-    public File(long id, String name, String format, long size) {
+    public File(long id, String name, String format, long size) throws Exception {
+        if (name.length()>10){
+            String mesage = "File lengths more then 10 symbols";
+            throw new Exception(mesage);
+        }
+
         this.id = id;
         this.name = name;
         this.format = format;
@@ -17,31 +22,15 @@ public class File {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getFormat() {
         return format;
     }
 
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
     public long getSize() {
         return size;
-    }
-
-    public void setSize(long size) {
-        this.size = size;
     }
 }
