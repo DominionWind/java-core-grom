@@ -1,56 +1,80 @@
 package lesson19.HomeWork;
 
-import lesson9.HomeWork.User;
-
 public class Controller {
 
-    public void put(Storage storage, File file) {
+    public File put(Storage storage, File file) throws Exception {
+        String mesage = "Storage #ID " + storage.getId() + " is full. U have 2 to do some thing";
+        if (storage == null || file == null) {
+            return null;
+        }
 
+        if (checkFormat(storage, file))
+
+            if (checkId(storage, file))
+
+//                if (checkSize(storage, file))
+
+                    for (int i = 0; i < storage.getFiles().length; i++) {
+                        if (storage.getFiles()[i] == null) {
+                            storage.getFiles()[i] = file;
+                            return file;
+                        }
+                    }
+        throw new Exception(mesage);
     }
 
-    public void delete(Storage storage, File file) {
+    public Storage delete(Storage storage, File file) throws Exception {
 
+        if (storage == null || file == null) {
+            return null;
+        }
+        if (checkFormat(storage, file))
+
+            if (checkId(storage, file))
+
+//                if (checkSize(storage, file))
+
+                    for (int i = 0; i < storage.getFiles().length; i++) {
+                        if (storage.getFiles()[i].getId() == file.getId()) {
+                            storage.getFiles()[i] = null;
+                            break;
+                        }
+
+                    }
+        return storage;
     }
 
-    public void transferAll(Storage storageFrom, Storage storageTo) {
+    public Storage transferAll(Storage storageFrom, Storage storageTo) throws Exception {
 
+        if (storageFrom == null || storageTo == null) {
+            return null;
+        }
+        if (storageFrom.getFiles().length > storageTo.getFiles().length) {
+            throw new Exception("Storage #ID " + storageFrom.getId() + " leight more than Storage #ID" + storageTo.getId() + " .Can`t make transfer");
+        }
+
+        for (int i = 0; i < storageFrom.getFiles().length; i++) {
+            storageTo.getFiles()[i] = storageFrom.getFiles()[i];
+        }
+        return storageTo;
     }
 
-    public void transferFile(Storage storageFrom, Storage storageTo, long id) {
+    public Storage transferFile(Storage storageFrom, Storage storageTo, long id) throws Exception{
+        if (storageFrom == null || storageTo == null) {
+            return null;
+        }
+        File transferFile = null;
 
+        for (File f : storageFrom.getFiles()) {
+            if (f.getId() == id) {
+                transferFile = f;
+                break;
+            }
+        }
+        put(storageTo, transferFile);
+
+        return storageTo;
     }
-
-//    public User save(User user) {
-//        if (findById(user.getId()) == null)
-//            for (int i = 0; i < users.length; i++)
-//                if (users[i] == null) {
-//                    users[i] = user;
-//                    return user;
-//                }
-//        return null;
-//    }
-//
-//    public User update(User user) {
-//        if (user != null)
-//            return null;
-//        for (int i = 0; i < users.length; i++) {
-//            if (users[i].equals(findById(user.getId()))){
-//                users[i] = user;
-//                return users[i];
-//            }
-//            return null;
-//        }
-//        return null;
-//    }
-//
-//
-//    public void delete(long id) {
-//        if (findById(id) != null)
-//            for (int i = 0; i < users.length; i++)
-//                if (users[i].equals(findById(id)))
-//                    users[i] = null;
-//    }
-
 
     private boolean checkFormat(Storage storage, File file) throws Exception {
         String mesage = "Storage ID# " + storage.getId() + "doesn`t support " + file.getName() + file.getFormat() + " format. Everybody Dies=(";
@@ -77,10 +101,10 @@ public class Controller {
         return true;
     }
 
-    private boolean checkSize(Storage storage, File file) {
-        if (storage.getStorageSize() - storage.getFiles().length > 0) {
-            return true;
-        }
-        return false;
-    }
+//    private boolean checkSize(Storage storage, File file) {
+//        if (storage.getStorageSize() - storage.getFiles().length > 0) {
+//            return true;
+//        }
+//        return false;
+//    }
 }

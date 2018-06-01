@@ -6,10 +6,10 @@ public class File {
     private String format;
     private long size;
 
-    public File(long id, String name, String format, long size) throws Exception {
+    public File(long id, String name, String format, long size)  {
         if (name.length()>10){
             String mesage = "File lengths more then 10 symbols";
-            throw new Exception(mesage);
+            throw new RuntimeException(mesage);
         }
 
         this.id = id;
