@@ -1,5 +1,7 @@
 package lesson19.HomeWork;
 
+import java.util.Arrays;
+
 public class Storage {
     private long id;
     private File[] files;
@@ -33,5 +35,16 @@ public class Storage {
 
     public long getStorageSize() {
         return storageSize;
+    }
+
+    @Override
+    public String toString() {
+        return "Storage{" +
+                "id=" + id +
+                ", files=" + Arrays.toString(files) +
+                ", formatsSupported=" + Arrays.toString(formatsSupported) +
+                ", storageCountry='" + storageCountry + '\'' +
+                ", storageSize=" + storageSize +
+                '}';
     }
 }

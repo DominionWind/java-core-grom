@@ -12,18 +12,17 @@ public class Controller {
 
             if (checkId(storage, file))
 
-//                if (checkSize(storage, file))
+                for (int i = 0; i < storage.getFiles().length; i++) {
 
-                    for (int i = 0; i < storage.getFiles().length; i++) {
-                        if (storage.getFiles()[i] == null) {
-                            storage.getFiles()[i] = file;
-                            return file;
-                        }
-                    }
-        throw new Exception(mesage);
+            if (storage.getFiles()[i] == null) {
+                storage.getFiles()[i] = file;
+                break;
+            }
+        }
+        return file;
     }
 
-    public Storage delete(Storage storage, File file) throws Exception {
+    public File delete(Storage storage, File file) throws Exception {
 
         if (storage == null || file == null) {
             return null;
@@ -34,14 +33,13 @@ public class Controller {
 
 //                if (checkSize(storage, file))
 
-                    for (int i = 0; i < storage.getFiles().length; i++) {
-                        if (storage.getFiles()[i].getId() == file.getId()) {
-                            storage.getFiles()[i] = null;
-                            break;
-                        }
-
+                for (int i = 0; i < storage.getFiles().length; i++) {
+                    if (storage.getFiles()[i].getId() == file.getId()) {
+                        storage.getFiles()[i] = null;
+                        break;
                     }
-        return storage;
+                }
+        return file;
     }
 
     public Storage transferAll(Storage storageFrom, Storage storageTo) throws Exception {
@@ -59,7 +57,7 @@ public class Controller {
         return storageTo;
     }
 
-    public Storage transferFile(Storage storageFrom, Storage storageTo, long id) throws Exception{
+    public Storage transferFile(Storage storageFrom, Storage storageTo, long id) throws Exception {
         if (storageFrom == null || storageTo == null) {
             return null;
         }
@@ -77,13 +75,13 @@ public class Controller {
     }
 
     private boolean checkFormat(Storage storage, File file) throws Exception {
-        String mesage = "Storage ID# " + storage.getId() + "doesn`t support " + file.getName() + file.getFormat() + " format. Everybody Dies=(";
+        String mesage = "Storage ID# " + storage.getId() + "doesn`t support " + file.getName() + " " + file.getFormat() + " format. Everybody Dies=(";
 
         for (int i = 0; i < storage.getFormatsSupported().length; i++) {
             if (file.getFormat().equals(storage.getFormatsSupported())) {
                 return true;
             }
-            throw new Exception(mesage);
+//            throw new Exception(mesage);
         }
         return false;
     }
@@ -91,11 +89,10 @@ public class Controller {
     private boolean checkId(Storage storage, File file) throws Exception {
         String mesage = "Fatal Error. File whith ID" + file.getId() + " already in Storage ID#" + storage.getId();
         for (int i = 0; i < storage.getFiles().length; i++) {
-            for (File f : storage.getFiles()) {
-                if (file.getId() == f.getId()) {
-                    return false;
-//                    throw new Exception(mesage);
-                }
+//            for (File f : storage.getFiles()) {
+            if (file.getId() == storage.getFiles()[i].getId()) {
+                throw new Exception(mesage);
+//                return false;
             }
         }
         return true;
