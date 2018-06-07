@@ -14,11 +14,11 @@ public class Controller {
 
                 for (int i = 0; i < storage.getFiles().length; i++) {
 
-            if (storage.getFiles()[i] == null) {
-                storage.getFiles()[i] = file;
-                break;
-            }
-        }
+                    if (storage.getFiles()[i] == null) {
+                        storage.getFiles()[i] = file;
+                        break;
+                    }
+                }
         return file;
     }
 
@@ -27,18 +27,13 @@ public class Controller {
         if (storage == null || file == null) {
             return null;
         }
-        if (checkFormat(storage, file))
 
-            if (checkId(storage, file))
-
-//                if (checkSize(storage, file))
-
-                for (int i = 0; i < storage.getFiles().length; i++) {
-                    if (storage.getFiles()[i].getId() == file.getId()) {
-                        storage.getFiles()[i] = null;
-                        break;
-                    }
-                }
+        for (int i = 0; i < storage.getFiles().length; i++) {
+            if (storage.getFiles()[i].getId() == file.getId()) {
+                storage.getFiles()[i] = null;
+                break;
+            }
+        }
         return file;
     }
 
@@ -78,21 +73,22 @@ public class Controller {
         String mesage = "Storage ID# " + storage.getId() + "doesn`t support " + file.getName() + " " + file.getFormat() + " format. Everybody Dies=(";
 
         for (int i = 0; i < storage.getFormatsSupported().length; i++) {
-            if (file.getFormat().equals(storage.getFormatsSupported())) {
+            if (file.getFormat().equals(storage.getFormatsSupported()[i])) {
                 return true;
             }
-//            throw new Exception(mesage);
         }
         return false;
     }
 
     private boolean checkId(Storage storage, File file) throws Exception {
         String mesage = "Fatal Error. File whith ID" + file.getId() + " already in Storage ID#" + storage.getId();
+        if (file == null || storage.getFiles()==null){
+            return false;
+        }
+
         for (int i = 0; i < storage.getFiles().length; i++) {
-//            for (File f : storage.getFiles()) {
-            if (file.getId() == storage.getFiles()[i].getId()) {
-                throw new Exception(mesage);
-//                return false;
+            if (storage.getFiles()[i]!= null && file.getId() == storage.getFiles()[i].getId()) {
+                return false;
             }
         }
         return true;
