@@ -46,8 +46,10 @@ public class Controller {
             throw new Exception("Storage #ID " + storageFrom.getId() + " leight more than Storage #ID" + storageTo.getId() + " .Can`t make transfer");
         }
 
+        checkFreeStots(storageFrom, storageTo);
+
         for (int i = 0; i < storageFrom.getFiles().length; i++) {
-            storageTo.getFiles()[i] = storageFrom.getFiles()[i];
+            put(storageTo,storageFrom.getFiles()[i]);
         }
         return storageTo;
     }
@@ -82,16 +84,38 @@ public class Controller {
 
     private boolean checkId(Storage storage, File file) throws Exception {
         String mesage = "Fatal Error. File whith ID" + file.getId() + " already in Storage ID#" + storage.getId();
-        if (file == null || storage.getFiles()==null){
+        if (file == null || storage.getFiles() == null) {
             return false;
         }
 
         for (int i = 0; i < storage.getFiles().length; i++) {
-            if (storage.getFiles()[i]!= null && file.getId() == storage.getFiles()[i].getId()) {
+            if (storage.getFiles()[i] != null && file.getId() == storage.getFiles()[i].getId()) {
                 return false;
             }
         }
         return true;
+    }
+
+    private boolean checkFreeStots(Storage storageFrom, Storage storageTo) throws Exception {
+        int count = 0;
+        int c = 0;
+
+        for (File f : storageFrom.getFiles()) {
+            if (f == null)
+                count++;
+        }
+
+        for (File f : storageTo.getFiles()) {
+            if (f == null)
+                c++;
+        }
+
+        if ((storageFrom.getFiles().length - count) >= c) {
+            return true;
+//        }else {
+//            throw new Exception("not enaught free file slot in stotage for transfer");
+        }
+        return false;
     }
 
 //    private boolean checkSize(Storage storage, File file) {
