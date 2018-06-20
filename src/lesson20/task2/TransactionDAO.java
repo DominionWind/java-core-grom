@@ -1,6 +1,7 @@
 package lesson20.task2;
 
 import lesson20.task2.exeption.BadRequestException;
+import lesson20.task2.exeption.InternalServerException;
 import lesson20.task2.exeption.LimitExceeded;
 
 import java.util.Arrays;
@@ -13,8 +14,16 @@ public class TransactionDAO {
 
     public Transaction save(Transaction transaction) throws Exception {
 
-
-        //todo
+        validate(transaction);
+        for (int i = 0; i < transactions.length; i++) {
+            if (transactions[i].equals(null)) {
+                transactions[i] = transaction;
+                break;
+            }
+            else {
+                throw new InternalServerException("Transaction ID# " + transaction.getId() + " can`t be saved. Not enought spase in DB");
+            }
+        }
         return transaction;
     }
 
@@ -25,10 +34,10 @@ public class TransactionDAO {
         if (transaction.getAmount() > utils.getLimitSimpleTransactionAmount())
             throw new LimitExceeded("Transaction limit exceed " + transaction.getId() + ".Can`t be saved");
 
-        for (Transaction tr : transactions) {
-            if (tr.equals(transaction))
-                throw new BadRequestException("Transaction ID#" + transaction.getId() + " is already in DB. not going again =(");
-        }
+//        for (Transaction tr : transactions) {
+//            if (tr.equals(transaction))
+//                throw new BadRequestException("Transaction ID#" + transaction.getId() + " is already in DB. not going again =(");
+//        }
 
         int sum = 0;
         int count = 0;
@@ -38,14 +47,26 @@ public class TransactionDAO {
         }
 
         if (sum > utils.getLimitSimpleTransactionAmount()) {
-            throw new LimitExceeded("Transaction limit per dae amount exceed " + transaction.getId() + ".Can`t be saved");
+            throw new LimitExceeded("Transaction limit per day amount exceed " + transaction.getId() + ".Can`t be saved");
         }
 
         if (count > utils.getLimitSimpleTransactionAmount()) {
             throw new LimitExceeded("Transaction limit per day count exceed " + transaction.getId() + ".Can`t be saved");
         }
 
-        //todo
+        if (!transaction.getCity().equals(utils.getCities())) {
+            throw new BadRequestException("Incorect transaction ID# " + transaction.getId() + " citi direct. Transaction Faild");
+        }
+
+//        int nullCount = 0;
+//        for (Transaction tr : transactions) {
+//            if (tr.equals(null))
+//                nullCount++;
+//        }
+//
+//        if (nullCount == 0) {
+//            throw new InternalServerException("Transaction ID# " + transaction.getId() + " can`t be saved. Not enought spase in DB");
+//        }
     }
 
     Transaction[] transactionList() {
@@ -89,6 +110,7 @@ public class TransactionDAO {
             if (tr.getAmount() == amount) {
                 transaction[i] = tr;
                 i++;
+                System.out.println(i);
             }
         }
 
