@@ -15,22 +15,18 @@ public class TransactionDAO {
     public Transaction save(Transaction transaction) throws Exception {
 
         validate(transaction);
-        for (int i = 0; i < transactions.length; i++) {
-            if (transactions[i].equals(null)) {
-                transactions[i] = transaction;
-                break;
+        int i = 0;
+        for (Transaction tr:transactions){
+            if (tr == null){
+                transaction = transactions[i];
+                return transaction;
             }
-            else {
-                throw new InternalServerException("Transaction ID# " + transaction.getId() + " can`t be saved. Not enought spase in DB");
-            }
+            i++;
         }
-        return transaction;
+        throw new InternalServerException("Transaction ID# " + transaction.getId() + " can`t be saved. Not enought spase in DB");
     }
 
     private void validate(Transaction transaction) throws Exception {
-        if (transaction == null)
-            throw new BadRequestException("Transaction ID# " + transaction.getId() + " is null!!! NOT GOING xD");
-
         if (transaction.getAmount() > utils.getLimitSimpleTransactionAmount())
             throw new LimitExceeded("Transaction limit exceed " + transaction.getId() + ".Can`t be saved");
 
@@ -46,18 +42,29 @@ public class TransactionDAO {
             count++;
         }
 
-        if (sum > utils.getLimitSimpleTransactionAmount()) {
+        if (sum + transaction.getAmount() > utils.getLimitSimpleTransactionAmount()) {
             throw new LimitExceeded("Transaction limit per day amount exceed " + transaction.getId() + ".Can`t be saved");
         }
 
-        if (count > utils.getLimitSimpleTransactionAmount()) {
+        if (count + 1 > utils.getLimitSimpleTransactionAmount()) {
             throw new LimitExceeded("Transaction limit per day count exceed " + transaction.getId() + ".Can`t be saved");
         }
 
-        if (!transaction.getCity().equals(utils.getCities())) {
-            throw new BadRequestException("Incorect transaction ID# " + transaction.getId() + " citi direct. Transaction Faild");
+//        if (!transaction.getCity().equals(utils.getCities())) {
+//            throw new BadRequestException("Incorect transaction ID# " + transaction.getId() + " citi direct. Transaction Faild");
+//        }
+
+        boolean validateCity = false;
+        for (String city : utils.getCities()) {
+            if (city.equals(transaction.getCity())) {
+                validateCity = true;
+                break;
+            }
         }
 
+        if (!validateCity) {
+            throw new BadRequestException("Transaction ID# " + transaction.getId() + " faild. Incorrect city");
+        }
 //        int nullCount = 0;
 //        for (Transaction tr : transactions) {
 //            if (tr.equals(null))
@@ -67,6 +74,7 @@ public class TransactionDAO {
 //        if (nullCount == 0) {
 //            throw new InternalServerException("Transaction ID# " + transaction.getId() + " can`t be saved. Not enought spase in DB");
 //        }
+//      =================================================================
     }
 
     Transaction[] transactionList() {
@@ -78,7 +86,7 @@ public class TransactionDAO {
 
         int count = 0;
         for (Transaction tr : transactions) {
-            if (tr.getCity().equals(city))
+            if (tr != null && tr.getCity().equals(city))
                 count++;
         }
 
@@ -86,12 +94,13 @@ public class TransactionDAO {
 
         int i = 0;
         for (Transaction tr : transaction) {
-            if (tr.getCity().equals(city)) {
+            if (tr != null && tr.getCity().equals(city)) {
                 transaction[i] = tr;
                 i++;
             }
         }
-
+        System.out.println(Arrays.deepToString(transaction) + " This is transactionList by city");
+        System.out.println("=============================");
         return transaction;
     }
 
@@ -114,6 +123,8 @@ public class TransactionDAO {
             }
         }
 
+        System.out.println(Arrays.deepToString(transaction) + " This is transactionList by amount");
+        System.out.println("=============================");
         return transaction;
     }
 
@@ -151,5 +162,4 @@ public class TransactionDAO {
         }
         return result;
     }
-
 }
