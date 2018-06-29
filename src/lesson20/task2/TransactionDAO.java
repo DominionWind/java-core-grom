@@ -4,7 +4,6 @@ import lesson20.task2.exeption.BadRequestException;
 import lesson20.task2.exeption.InternalServerException;
 import lesson20.task2.exeption.LimitExceeded;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,25 +14,19 @@ public class TransactionDAO {
     public Transaction save(Transaction transaction) throws Exception {
 
         validate(transaction);
-        int i = 0;
-        for (Transaction tr:transactions){
-            if (tr == null){
-                transaction = transactions[i];
-                return transaction;
+
+        for (int i = 0; i < transactions.length; i++) {
+            if (transactions[i] == null) {
+                transactions[i] = transaction;
+                break;
             }
-            i++;
         }
-        throw new InternalServerException("Transaction ID# " + transaction.getId() + " can`t be saved. Not enought spase in DB");
+        return transaction;
     }
 
     private void validate(Transaction transaction) throws Exception {
         if (transaction.getAmount() > utils.getLimitSimpleTransactionAmount())
             throw new LimitExceeded("Transaction limit exceed " + transaction.getId() + ".Can`t be saved");
-
-//        for (Transaction tr : transactions) {
-//            if (tr.equals(transaction))
-//                throw new BadRequestException("Transaction ID#" + transaction.getId() + " is already in DB. not going again =(");
-//        }
 
         int sum = 0;
         int count = 0;
@@ -42,11 +35,11 @@ public class TransactionDAO {
             count++;
         }
 
-        if (sum + transaction.getAmount() > utils.getLimitSimpleTransactionAmount()) {
+        if (sum + transaction.getAmount() > utils.getLimitTransactionsPerDayAmount()) {
             throw new LimitExceeded("Transaction limit per day amount exceed " + transaction.getId() + ".Can`t be saved");
         }
 
-        if (count + 1 > utils.getLimitSimpleTransactionAmount()) {
+        if (count + 1 > utils.getLimitTransactionsPerDayCount()) {
             throw new LimitExceeded("Transaction limit per day count exceed " + transaction.getId() + ".Can`t be saved");
         }
 
@@ -65,21 +58,37 @@ public class TransactionDAO {
         if (!validateCity) {
             throw new BadRequestException("Transaction ID# " + transaction.getId() + " faild. Incorrect city");
         }
-//        int nullCount = 0;
-//        for (Transaction tr : transactions) {
-//            if (tr.equals(null))
-//                nullCount++;
-//        }
-//
-//        if (nullCount == 0) {
-//            throw new InternalServerException("Transaction ID# " + transaction.getId() + " can`t be saved. Not enought spase in DB");
-//        }
-//      =================================================================
+
+        int freeStotsCount = 0;
+        for (Transaction tr : transactions) {
+            if (tr == null) ;
+            freeStotsCount++;
+        }
+
+        if (freeStotsCount <= 0) {
+            throw new InternalServerException("Not enought free slots. Transaction ID# " + transaction.getId() + " faild");
+        }
     }
 
     Transaction[] transactionList() {
-        System.out.println(Arrays.deepToString(transactions));
-        return transactions;
+
+        int count = 0;
+        for (Transaction tr : transactions) {
+            if (tr != null)
+                count++;
+        }
+
+        Transaction[] trans = new Transaction[count];
+
+        int i = 0;
+        for (Transaction tr : transactions) {
+            if (tr != null) {
+                trans[i] = tr;
+                i++;
+            }
+        }
+
+        return trans;
     }
 
     Transaction[] transactionList(String city) {
@@ -90,42 +99,38 @@ public class TransactionDAO {
                 count++;
         }
 
-        Transaction[] transaction = new Transaction[count];
+        Transaction[] trans = new Transaction[count];
 
         int i = 0;
-        for (Transaction tr : transaction) {
+        for (Transaction tr : transactions) {
             if (tr != null && tr.getCity().equals(city)) {
-                transaction[i] = tr;
+                trans[i] = tr;
                 i++;
             }
         }
-        System.out.println(Arrays.deepToString(transaction) + " This is transactionList by city");
-        System.out.println("=============================");
-        return transaction;
+
+        return trans;
     }
 
     Transaction[] transactionList(int amount) {
 
         int count = 0;
         for (Transaction tr : transactions) {
-            if (tr.getAmount() == amount)
+            if (tr != null && tr.getAmount() == amount)
                 count++;
         }
 
-        Transaction[] transaction = new Transaction[count];
+        Transaction[] trans = new Transaction[count];
 
         int i = 0;
-        for (Transaction tr : transaction) {
-            if (tr.getAmount() == amount) {
-                transaction[i] = tr;
+        for (Transaction tr : transactions) {
+            if (tr != null && tr.getAmount() == amount) {
+                trans[i] = tr;
                 i++;
-                System.out.println(i);
             }
         }
 
-        System.out.println(Arrays.deepToString(transaction) + " This is transactionList by amount");
-        System.out.println("=============================");
-        return transaction;
+        return trans;
     }
 
     private Transaction[] getTransactionsPerDay(Date dateOdCurTransaction) {

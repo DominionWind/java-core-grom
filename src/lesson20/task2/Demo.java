@@ -19,8 +19,5 @@ public class Demo {
         Transaction transaction10=new Transaction(10,"Aphines",10,"someDescr",TransactionType.INCOME,new Date());
 
         controller.save(transaction3);
-        //controller.transactionList(3);
-
-
     }
 }
