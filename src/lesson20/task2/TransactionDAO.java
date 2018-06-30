@@ -11,7 +11,7 @@ public class TransactionDAO {
     private static Transaction[] transactions = new Transaction[10];
     private static Utils utils = new Utils();
 
-    public static Transaction save(Transaction transaction) throws Exception {
+    public Transaction save(Transaction transaction) throws Exception {
 
         validate(transaction);
 
@@ -70,7 +70,7 @@ public class TransactionDAO {
         }
     }
 
-    public static Transaction[] transactionList() {
+    public Transaction[] transactionList() {
 
         int count = 0;
         for (Transaction tr : transactions) {
