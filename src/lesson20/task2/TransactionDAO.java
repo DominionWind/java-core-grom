@@ -8,10 +8,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TransactionDAO {
-    private Transaction[] transactions = new Transaction[10];
-    private Utils utils = new Utils();
+    private static Transaction[] transactions = new Transaction[10];
+    private static Utils utils = new Utils();
 
-    public Transaction save(Transaction transaction) throws Exception {
+    public static Transaction save(Transaction transaction) throws Exception {
 
         validate(transaction);
 
@@ -24,7 +24,7 @@ public class TransactionDAO {
         return transaction;
     }
 
-    private void validate(Transaction transaction) throws Exception {
+    private static void validate(Transaction transaction) throws Exception {
         if (transaction.getAmount() > utils.getLimitSimpleTransactionAmount())
             throw new LimitExceeded("Transaction limit exceed " + transaction.getId() + ".Can`t be saved");
 
@@ -70,7 +70,7 @@ public class TransactionDAO {
         }
     }
 
-    Transaction[] transactionList() {
+    public static Transaction[] transactionList() {
 
         int count = 0;
         for (Transaction tr : transactions) {
@@ -91,7 +91,7 @@ public class TransactionDAO {
         return trans;
     }
 
-    Transaction[] transactionList(String city) {
+    public static Transaction[] transactionList(String city) {
 
         int count = 0;
         for (Transaction tr : transactions) {
@@ -112,7 +112,7 @@ public class TransactionDAO {
         return trans;
     }
 
-    Transaction[] transactionList(int amount) {
+    public static Transaction[] transactionList(int amount) {
 
         int count = 0;
         for (Transaction tr : transactions) {
@@ -133,7 +133,7 @@ public class TransactionDAO {
         return trans;
     }
 
-    private Transaction[] getTransactionsPerDay(Date dateOdCurTransaction) {
+    private static Transaction[] getTransactionsPerDay(Date dateOdCurTransaction) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateOdCurTransaction);
         int month = calendar.get(Calendar.MONTH);

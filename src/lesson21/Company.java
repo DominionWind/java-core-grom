@@ -47,7 +47,6 @@ public class Company {
     }
 
     private static class Test{
-        
 
 
     }
