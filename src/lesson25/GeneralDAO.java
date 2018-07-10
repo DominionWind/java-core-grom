@@ -5,7 +5,7 @@ public class GeneralDAO<T> {
     private T[] DB = (T[]) new Object[10];
 
     public T save(T t) throws Exception{
-        
+
         if (t == null) {
             return null;
         }
