@@ -18,6 +18,9 @@ public class ArrayListExample {
         int index1 = 1;
         int index2 = 2;
 
+        list2.add(order4);
+        list2.add(order5);
+
         list.add(order1);
         list.add(1, order2);
         list.add(order3);
@@ -31,6 +34,12 @@ public class ArrayListExample {
         list.contains (order1);
         list.toArray ();
         list.clear();
+
+        list.add(order1);
+        list.add(order2);
+        list.add(order3);
+        list.add(order4);
+        list.add(order5);
 
         return list;
     }
