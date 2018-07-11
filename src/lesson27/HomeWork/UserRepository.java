@@ -9,9 +9,8 @@ import java.util.List;
 
 public class UserRepository {
     private ArrayList<User> users = new ArrayList<>();
-    //private User[] users = new User[10];
 
-    public List save(User user) throws Exception {
+    public User save(User user) throws Exception {
         if (user == null)
             throw new BadRequestException("Can`t save null user");
 
@@ -24,36 +23,17 @@ public class UserRepository {
 
         users.add(user);
 
-//        int index = 0;
-//        for (User us : users) {
-//            if (us == null) {
-//                users[index] = user;
-//                return users[index];
-//            }
-//            index++;
-//        }
-
-//        throw new InternalServerException("Not enough space to save user with id: " + user.getId());
-        return users;
+        return user;
     }
 
-    public List update(User user) throws Exception {
+    public User update(User user) throws Exception {
         if (user == null)
             throw new BadRequestException("Can`t update null user");
 
         users.remove(findById(user.getId()));
         users.add(user);
 
-//        int index = 0;
-//        for (User us : users) {
-//            if (us != null && us.getId() == user.getId()) {
-//                users[index] = user;
-//                return users[index];
-//            }
-//            index++;
-//        }
-
-        throw new InternalServerException("Unexeption error");
+        return user;
     }
 
     public void delete(long id) throws Exception {
@@ -61,14 +41,6 @@ public class UserRepository {
 
         users.remove(findById(id));
 
-//        int index = 0;
-//        for (User us : users) {
-//            if (us.getId() == id) {
-//                users[index] = null;
-//                break;
-//            }
-//            index++;
-//        }
     }
 
     public User findById(long id) throws UserNotFoundException {
