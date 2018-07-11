@@ -20,6 +20,9 @@ public class ArrayListExample {
 
         list.add(order1);
         list.add(1, order2);
+        list.add(order3);
+        list.add(order4);
+        list.add(order5);
         list.remove(2);
         list.remove(order1);
         list.addAll(list2);
@@ -28,10 +31,6 @@ public class ArrayListExample {
         list.contains (order1);
         list.toArray ();
         list.clear();
-
-
-        //list.add()
-
 
         return list;
     }
