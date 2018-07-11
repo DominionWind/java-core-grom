@@ -11,7 +11,7 @@ public class UserRepository {
     private ArrayList<User> users = new ArrayList<>();
     //private User[] users = new User[10];
 
-    public User save(User user) throws Exception {
+    public List save(User user) throws Exception {
         if (user == null)
             throw new BadRequestException("Can`t save null user");
 
@@ -34,16 +34,14 @@ public class UserRepository {
 //        }
 
 //        throw new InternalServerException("Not enough space to save user with id: " + user.getId());
-        return user;
+        return users;
     }
 
     public List update(User user) throws Exception {
         if (user == null)
             throw new BadRequestException("Can`t update null user");
 
-        findById(user.getId());
-
-        users.remove(user.getId());
+        users.remove(findById(user.getId()));
         users.add(user);
 
 //        int index = 0;
