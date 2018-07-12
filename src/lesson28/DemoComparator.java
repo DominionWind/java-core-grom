@@ -25,19 +25,5 @@ public class DemoComparator {
         capabilities.sort(new DateComparator());
 
         System.out.println(capabilities);
-
-        /*
-        Comparator<Capability> comparator = new Comparator<Capability>() {
-            @Override
-            public int compare(Capability o1, Capability o2) {
-                if (!o1.getChannelName().equals(o2))
-                    return o1.getChannelName().compareTo(o2.getChannelName());
-
-                //todo
-
-
-                return 0;
-            }
-        };*/
     }
 }
