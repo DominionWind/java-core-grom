@@ -7,8 +7,9 @@ public class FullComparator implements Comparator<Capability>{
     public int compare(Capability o1, Capability o2) {
         if (!o1.getChannelName().equals(o2))
             return o1.getChannelName().compareTo(o2.getChannelName());
-        if (!o1.getFingerprint().equals(o2))
+        else if (!o1.getFingerprint().equals(o2))
             return o1.getFingerprint().compareTo(o2.getFingerprint());
-        return (int)(o1.getDateCreated().getTime() - o2.getDateCreated().getTime());
+        else
+            return (int)(o1.getDateCreated().getTime() - o2.getDateCreated().getTime());
     }
 }
