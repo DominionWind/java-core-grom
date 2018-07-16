@@ -5,9 +5,9 @@ import java.util.Date;
 
 public class DemoComparator {
     public static void main(String[] args) throws InterruptedException {
-        Capability capability2 = new Capability(1005, "test2", "rrrr", false, new Date());
+        Capability capability2 = new Capability(1005, null, "rrrr", false, null);
         Thread.sleep(1000);
-        Capability capability4 = new Capability(900, "test4", "rrrr", false, new Date());
+        Capability capability4 = new Capability(900, "test4", "rrrr", false, null);
         Thread.sleep(1000);
         Capability capability3 = new Capability(900, "test3", "rrrr", true, new Date());
         Thread.sleep(1000);
@@ -23,6 +23,10 @@ public class DemoComparator {
         System.out.println(capabilities);
 
         capabilities.sort(new DateComparator());
+
+        System.out.println(capabilities);
+
+        capabilities.sort(new FullComparator());
 
         System.out.println(capabilities);
     }
