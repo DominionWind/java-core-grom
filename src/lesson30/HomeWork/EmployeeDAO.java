@@ -97,17 +97,17 @@ public class EmployeeDAO {
         return teamLeadsByEmployee;
     }
 
-    public ArrayList<Employee> employeesByPrijectEmployee(Employee employee){
+    public ArrayList<Employee> employeesByProjectEmployee(Employee employee){
 
-        ArrayList<Employee> employeesByPrijectEmployee = new ArrayList<>();
+        ArrayList<Employee> employeesByProjectEmployee = new ArrayList<>();
 
         for (Employee em:employees){
             if (em.getProjects() == employee.getProjects()){
-                employeesByPrijectEmployee.add(em);
+                employeesByProjectEmployee.add(em);
             }
         }
 
-        return employeesByPrijectEmployee;
+        return employeesByProjectEmployee;
     }
 
     public ArrayList<Employee> employeesByCustomerProjects(Customer customer){
