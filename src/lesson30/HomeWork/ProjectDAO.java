@@ -17,4 +17,16 @@ public class ProjectDAO {
     public ArrayList<Project> getProjects() {
         return projects;
     }
+
+    public ArrayList<Project> projectsByCustomer(Customer customer){
+        ArrayList<Project> projectsByCustomer = new ArrayList<>();
+
+        for (Project project:projects){
+            if (customer.equals(project.getCustomer())){
+                projectsByCustomer.add(project);
+            }
+        }
+
+        return projectsByCustomer;
+    }
 }
