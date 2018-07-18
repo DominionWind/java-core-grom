@@ -22,12 +22,4 @@ public class Department {
     public Collection getEmployees() {
         return employees;
     }
-
-    @Override
-    public String toString() {
-        return "Department{" +
-                "type=" + type +
-                ", employees=" + employees +
-                '}';
-    }
 }
