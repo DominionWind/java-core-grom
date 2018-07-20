@@ -23,10 +23,11 @@ public class EmployeeDAO {
         ArrayList<Employee> employeesByProject = new ArrayList<>();
 
         for (Employee employee : employees) {
-            ArrayList<Project> projects = employee.getProjects();
-            for (Project project : projects) {
-                if (projectName.equals(project.getName())) {
-                    employeesByProject.add(employee);
+            if (employee.getProjects() != null) {
+                for (Project project : employee.getProjects()) {
+                    if (project != null && projectName.equals(project.getName())) {
+                        employeesByProject.add(employee);
+                    }
                 }
             }
         }
@@ -35,6 +36,10 @@ public class EmployeeDAO {
     }
 
     public ArrayList<Project> projectsByEmployee(Employee employee) {
+
+        if (employee.getProjects() == null) {
+            return null;
+        }
 
         ArrayList<Project> projectsByEmployee = employee.getProjects();
 
@@ -75,9 +80,17 @@ public class EmployeeDAO {
             throw new Exception("Employee " + lead.getFirstName() + " " + lead.getLastName() + " not TeamLead. To get this list please chose TeamLead");
         }
 
+        if (lead.getProjects() == null) {
+            return null;
+        }
+
         for (Employee employee : employees) {
-            if (employee.getProjects() == lead.getProjects()){
-                employeesByTeamLead.add(employee);
+            for (Project pr : lead.getProjects()) {
+                for (Project project : employee.getProjects()) {
+                    if (project != null && pr.getName().equals(project.getName())) {
+                        employeesByTeamLead.add(employee);
+                    }
+                }
             }
         }
 
@@ -85,39 +98,56 @@ public class EmployeeDAO {
         return employeesByTeamLead;
     }
 
-    public ArrayList<Employee> teamLeadsByEmployee(Employee employee){
+    public ArrayList<Employee> teamLeadsByEmployee(Employee employee) {
 
         ArrayList<Employee> teamLeadsByEmployee = new ArrayList<>();
 
-        for (Employee em:employees){
-            if (em.getProjects() == employee.getProjects() && em.getPosition().equals(Position.TEAM_LEAD));
-            teamLeadsByEmployee.add(em);
+        if (employee.getProjects() == null) {
+            return null;
+        }
+
+        for (Employee em : employees) {
+            for (Project project : em.getProjects()) {
+                for (Project pr : employee.getProjects()) {
+                    if (project.getName().equals(pr.getName()) && em.getPosition().equals(Position.TEAM_LEAD)) {
+                        teamLeadsByEmployee.add(em);
+                    }
+                }
+            }
         }
 
         return teamLeadsByEmployee;
     }
 
-    public ArrayList<Employee> employeesByProjectEmployee(Employee employee){
+    public ArrayList<Employee> employeesByProjectEmployee(Employee employee) {
 
         ArrayList<Employee> employeesByProjectEmployee = new ArrayList<>();
 
-        for (Employee em:employees){
-            if (em.getProjects() == employee.getProjects()){
-                employeesByProjectEmployee.add(em);
+        if (employee.getProjects() == null) {
+            return null;
+        }
+
+        for (Employee em : employees) {
+            for (Project pr : em.getProjects()) {
+                for (Project project : employee.getProjects()) {
+                    if (project.getName().equals(pr.getName())) {
+                        employeesByProjectEmployee.add(em);
+                    }
+                }
             }
         }
 
+        employeesByProjectEmployee.remove(employee);
         return employeesByProjectEmployee;
     }
 
-    public ArrayList<Employee> employeesByCustomerProjects(Customer customer){
+    public ArrayList<Employee> employeesByCustomerProjects(Customer customer) {
         ArrayList<Employee> employeesByCustomerProjects = new ArrayList<>();
 
-        for (Employee employee:employees){
-            ArrayList<Project> projects = employee.getProjects();
-            for (Project project:projects){
-                if (customer.equals(project.getCustomer())){
-                    employeesByCustomerProjects.add(employee);
+        for (Employee em : employees) {
+            for (Project pr : em.getProjects()) {
+                if (pr != null && customer.equals(pr.getCustomer())) {
+                    employeesByCustomerProjects.add(em);
                 }
             }
         }

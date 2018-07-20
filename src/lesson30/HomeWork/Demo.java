@@ -25,18 +25,20 @@ public class Demo {
         projects1.add(project1);
         projects2.add(project2);
         projects3.add(project3);
+        projects3.add(project2);
+        projects3.add(project1);
 
         Department department1 = new Department(DepartmentType.DEVELOPMENT, employees1);
         Department department2 = new Department(DepartmentType.MANAGEMENT, employees1);
         Department department3 = new Department(DepartmentType.DESIGNER, employees1);
 
-        Employee employee1 = new Employee("Devid", "Lebovski",new Date(), Position.TEAM_LEAD, department1, projects1);
-        Employee employee2 = new Employee("Boris", "Razor",new Date(), Position.DEVELOPER, department1, projects1);
-        Employee employee3 = new Employee("Dmitriy", "TheThird",new Date(), Position.DEVELOPER, department1, projects1);
-        Employee employee4 = new Employee("Kevin", "K",new Date(), Position.MANAGER, department2, projects2);
-        Employee employee5 = new Employee("Serj", "Mavrodiu",new Date(), Position.MANAGER, department1, projects2);
-        Employee employee6 = new Employee("Madison", "Ivy",new Date(), Position.DESIGNER, department3, null);
-        Employee employee7 = new Employee("Silvia", "Saint",new Date(), Position.DESIGNER, department3, null);
+        Employee employee1 = new Employee("Devid", "Lebovski", new Date(), Position.TEAM_LEAD, department1, projects1);
+        Employee employee2 = new Employee("Boris", "Razor", new Date(), Position.DEVELOPER, department1, projects1);
+        Employee employee3 = new Employee("Dmitriy", "TheThird", new Date(), Position.DEVELOPER, department1, projects1);
+        Employee employee4 = new Employee("Kevin", "K", new Date(), Position.MANAGER, department2, projects2);
+        Employee employee5 = new Employee("Serj", "Mavrodiu", new Date(), Position.MANAGER, department1, projects3);
+        Employee employee6 = new Employee("Madison", "Ivy", new Date(), Position.DESIGNER, department3, projects2);
+        Employee employee7 = new Employee("Silvia", "Saint", new Date(), Position.DESIGNER, department3, projects2);
 
         controller.addEmployee(employee1);
         controller.addEmployee(employee2);
@@ -56,7 +58,7 @@ public class Demo {
 
 //        System.out.println(controller.employeesByProject("P1"));
 
-//        System.out.println(controller.projectsByEmployee(employee1));
+//        System.out.println(controller.projectsByEmployee(employee5));
 
 //        System.out.println(controller.employeesByDepartmentWithoutProject(DepartmentType.DESIGNER));
 
@@ -64,16 +66,15 @@ public class Demo {
 
 //        System.out.println(controller.employeesByTeamLead(employee1));
 
-//        System.out.println(controller.employeesByTeamLead(employee2));
+//        System.out.println(controller.employeesByTeamLead(employee1));
 
-//todo        System.out.println(controller.teamLeadsByEmployee(employee2));
+//        System.out.println(controller.teamLeadsByEmployee(employee5));
 
 //        System.out.println(controller.employeesByProjectEmployee(employee2));
 
-//todo        System.out.println(controller.projectsByCustomer(customer1));
+        System.out.println(controller.projectsByCustomer(customer1));
 
-//todo        System.out.println(controller.employeesByCustomerProjects(customer1));
-
+//        System.out.println(controller.employeesByCustomerProjects(customer2));
 
     }
 }
