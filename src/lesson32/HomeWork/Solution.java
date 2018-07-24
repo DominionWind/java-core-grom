@@ -67,13 +67,7 @@ public class Solution {
         }
 
         for (String w : words) {
-            if (!(Integer.parseInt(w) < 100)) {
-                return false;
-            }
-        }
-
-        for (String w : words) {
-            if (!(Integer.parseInt(w) > 0)) {
+            if (!(Integer.parseInt(w) > 0) || !(Integer.parseInt(w) < 100)) {
                 return false;
             }
         }
