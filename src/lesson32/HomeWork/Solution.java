@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
-
 public class Solution {
     public int readNumbers() throws IOException {
 
@@ -20,9 +19,7 @@ public class Solution {
             String[] lines = incomeText.split(" ");
 
             System.out.println(validate(incomeText));
-            if (n == 0) {
-                System.out.println("Your numbers are wrong. Number of attempts exceeded");
-            }
+
             if (validate(incomeText) == true) {
                 for (String l : lines) {
                     sum += Integer.parseInt(l);
@@ -30,32 +27,19 @@ public class Solution {
                 }
             } else {
                 n--;
+            }
+
+            if (n == 0) {
+                System.out.println("Your numbers are wrong. Number of attempts exceeded");
+            } else {
                 System.out.println("Your numbers are wrong. You have " + n + " attempts to try again");
             }
         }
 
+
         System.out.println(sum);
 
         return sum;
-    }
-
-    private boolean validate(String text) {
-        String[] test = text.split(" ");
-
-        if (test.length != 10)
-            return false;
-
-        for (String t : test) {
-            checkDigit(t);
-        }
-
-        for (String t : test) {
-            if (99 < Integer.parseInt(t) || Integer.parseInt(t) < 0) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private String printer() throws IOException {
@@ -68,14 +52,34 @@ public class Solution {
         return line;
     }
 
-    private boolean checkDigit(String text) {
-        char[] chars = text.toCharArray();
+    private boolean validate(String text) {
+        String[] words = text.split(" ");
 
-        for (char c : chars) {
-            if (Character.isDigit(c))
-                return true;
+        if (words.length != 10)
+            return false;
+
+        String numbers = text.replaceAll(" ", "");
+        char[] digits = numbers.toCharArray();
+        for (char digit : digits) {
+            if (!Character.isDigit(digit) && digit != '-') {
+                return false;
+            }
         }
-        return false;
+
+        for (String w : words) {
+            if (!(Integer.parseInt(w) < 100)) {
+                return false;
+            }
+        }
+
+        for (String w : words) {
+            if (!(Integer.parseInt(w) > 0)) {
+                return false;
+            }
+        }
+
+        return true;
     }
+
 
 }
