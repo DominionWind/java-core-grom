@@ -1,6 +1,5 @@
 package lesson33.HomeWork;
 
-import lesson19.HomeWork.File;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
