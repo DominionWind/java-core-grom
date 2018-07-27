@@ -7,7 +7,7 @@ import java.io.*;
 
 public class Solution {
 
-    private static void writeToFileFromConsole(String path) {
+    public static void writeToFileFromConsole(String path) {
 
         InputStreamReader reader = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(reader);
