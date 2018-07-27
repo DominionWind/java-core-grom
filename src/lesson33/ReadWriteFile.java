@@ -34,7 +34,7 @@ public class ReadWriteFile {
         }
     }
 
-    private static void writeFile(String path)throws InterruptedException{
+    private static void writeFile(String path){
         FileWriter writer = null;
         BufferedWriter bufferedWriter = null;
         try {
