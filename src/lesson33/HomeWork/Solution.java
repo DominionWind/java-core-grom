@@ -6,11 +6,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 
 public class Solution {
-    public static void main(String[] args) {
-//        writeToFileFromConsole("E:\\Games\\test1.txt");
-//        readFileByConsolePath();
-
-    }
 
     private static void writeToFileFromConsole(String path) {
 
