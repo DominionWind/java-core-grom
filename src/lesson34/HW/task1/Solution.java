@@ -1,4 +1,4 @@
-package lesson34.HW;
+package lesson34.HW.task1;
 
 import java.io.*;
 
@@ -8,7 +8,19 @@ public class Solution {
 
         validate(fileFromPath, fileToPath);
 
-        writeFile(fileToPath, readFromFile(fileFromPath));
+        writeFileWithBackup(fileFromPath, fileToPath);
+    }
+
+    private void writeFileWithBackup(String fileFromPath, String fileToPath) throws Exception {
+        StringBuffer fromPath = readFromFile(fileFromPath);
+
+        try {
+            writeFile(fileToPath, readFromFile(fileFromPath));
+            deleteContent(fileFromPath);
+        } catch (Exception e) {
+            writeFile(fileFromPath, fromPath);
+            throw new Exception("Error! Transfer from file " + fileFromPath + " to file " + fileToPath + " was failed");
+        }
     }
 
     private StringBuffer readFromFile(String path) {
@@ -30,9 +42,14 @@ public class Solution {
 
     private void writeFile(String path, StringBuffer contentToWrite) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path, true))) {
+            if (path.isEmpty()){
             bufferedWriter.append(contentToWrite);
+            } else {
+                bufferedWriter.append("\r\n");
+                bufferedWriter.append(contentToWrite);
+            }
         } catch (IOException e) {
-            System.err.println("Can`t write to file");
+            System.err.println("Can`t write to file " + path);
         }
     }
 
@@ -54,6 +71,16 @@ public class Solution {
 
         if (!fileTo.canWrite()) {
             throw new Exception("File " + fileFrom + " does not have permissions to be written");
+        }
+    }
+
+    private void deleteContent(String path) {
+        try {
+            PrintWriter writer = new PrintWriter(path);
+            writer.print("");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.err.printf("File " + path + " does not exist");
         }
     }
 }
