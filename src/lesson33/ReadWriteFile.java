@@ -38,8 +38,8 @@ public class ReadWriteFile {
         FileWriter writer = null;
         BufferedWriter bufferedWriter = null;
         try {
-
-            writer = new FileWriter(path, true);
+            writer = new FileWriter(path,true);
+//            writer = new FileWriter(new File(path), true);
             bufferedWriter = new BufferedWriter(writer);
 
             bufferedWriter.append("\n");

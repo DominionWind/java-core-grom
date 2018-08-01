@@ -5,8 +5,17 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 
 public class Solution {
+    public static void main(String[] args) {
+        writeToFileFromConsole("E:\\Games\\test1.exe");
+//        readFileByConsolePath();
+    }
 
     public static void writeToFileFromConsole(String path) {
+
+        if (!new File(path).exists()){
+            System.out.println("File with path " + path + " not found");
+            return;
+        }
 
         InputStreamReader reader = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(reader);
@@ -15,14 +24,11 @@ public class Solution {
         String textFromConsole = null;
         try {
             textFromConsole = br.readLine();
-//            while (br.readLine() != "wr,") {
-//                textFromConsole = br.readLine();
-//            }
         } catch (IOException e) {
             System.err.println("Reading from keyboard failed");
         }
         try {
-            if (br.readLine().equals("wr,")) {
+            if (br.readLine().equals("wr")) {
                 writeToFile(path, textFromConsole);
             }
         } catch (IOException e) {
@@ -78,6 +84,7 @@ public class Solution {
 
     private static void readFile(String path) {
         FileReader reader;
+
         try {
             reader = new FileReader(path);
         } catch (FileNotFoundException e) {
