@@ -60,7 +60,7 @@ public class Solution {
         StringBuilder remainingSentences = null;
         for (int i = 0; i < splitText.length; i++) {
             if (splitText[i].toCharArray().length > 9) {
-                if (splitText[i].contains(word)) {
+                if (!splitText[i].contains(word)) {
                     remainingSentences.append(splitText[i]);
                     remainingSentences.append(".");
                 }
