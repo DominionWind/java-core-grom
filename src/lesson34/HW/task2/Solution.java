@@ -9,7 +9,7 @@ public class Solution {
         validateFile(fileFromPath, fileToPath);
 
         writeFile(fileToPath, textToAppend(readFromFile(fileFromPath), word));
-        writeFile(fileFromPath, remainingSentences(readFromFile(fileFromPath), word));
+        writeRemainingContent(fileFromPath, remainingSentences(readFromFile(fileFromPath), word));
     }
 
 
@@ -71,7 +71,7 @@ public class Solution {
 
     }
 
-    private void writeRemainingContent(String remainingContent, String path) {
+    private void writeRemainingContent(String path, StringBuilder remainingContent) {
         try {
             PrintWriter writer = new PrintWriter(path);
             writer.print(remainingContent);
