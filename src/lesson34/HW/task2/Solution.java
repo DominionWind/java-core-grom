@@ -42,7 +42,7 @@ public class Solution {
             if (splitText[i].toCharArray().length > 9) {
                 if (splitText[i].contains(word)) {
                     textToAppend.append(splitText[i]);
-                    textToAppend.append(".");
+                    textToAppend.append(". ");
                 }
             }
         }
@@ -62,7 +62,7 @@ public class Solution {
             if (splitText[i].toCharArray().length > 9) {
                 if (!splitText[i].contains(word)) {
                     remainingSentences.append(splitText[i]);
-                    remainingSentences.append(".");
+                    remainingSentences.append(". ");
                 }
             }
         }
