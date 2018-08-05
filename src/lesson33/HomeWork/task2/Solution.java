@@ -1,104 +1,34 @@
 package lesson33.HomeWork.task2;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.*;
 
 public class Solution {
-    public void writeToFileFromConsole(String path) {
-
-        if (!new File(path).exists()){
-            System.out.println("File with path " + path + " not found");
-            return;
-        }
-
-        InputStreamReader reader = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(reader);
-
-        System.out.println("Enter file content to write in the file");
-        String textFromConsole = null;
-        try {
-            textFromConsole = br.readLine();
-        } catch (IOException e) {
-            System.err.println("Reading from keyboard failed");
-        }
-        try {
-            if (br.readLine().equals("wr")) {
-                writeToFile(path, textFromConsole);
-            }
-        } catch (IOException e) {
-            System.err.println("Reading from keyboard failed");
-        } finally {
-            IOUtils.closeQuietly(reader);
-            IOUtils.closeQuietly(br);
-        }
-    }
-
-    private void writeToFile(String path, String text) {
-        if (text != null) {
-            FileWriter writer = null;
-            BufferedWriter bufferedWriter = null;
-            try {
-                writer = new FileWriter(path, true);
-                bufferedWriter = new BufferedWriter(writer);
-
-                bufferedWriter.append("\n");
-                bufferedWriter.append(text);
-                System.out.println("writing done");
-            } catch (IOException e) {
-                System.err.println("Can`t write to file with path " + path);
-            } finally {
-                IOUtils.closeQuietly(writer);
-                IOUtils.closeQuietly(bufferedWriter);
-            }
-        }
-    }
-
-//=======================================================================================================================================================
 
     public void readFileByConsolePath() {
-        System.out.println("Please, enter file path to read");
 
-        InputStreamReader reader = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(reader);
+        readFile(readFromConsole());
+    }
 
-        String text = null;
-
-        try {
-            text = br.readLine();
+    private String readFromConsole() {
+        String path = null;
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in))){
+            System.out.println("Enter path");
+            path = bufferedReader.readLine();
         } catch (IOException e) {
-            System.err.println("Reading from keyboard failed");
+            System.err.println("Reading from file " + path + " failed");
         }
-        try {
-            readFile(text);
-        } finally {
-            IOUtils.closeQuietly(reader);
-            IOUtils.closeQuietly(br);
-        }
+        return path;
     }
 
     private void readFile(String path) {
-        FileReader reader;
-
-        try {
-            reader = new FileReader(path);
-        } catch (FileNotFoundException e) {
-            System.err.println("Can`t read file by path" + path);
-            return;
-        }
-
-        BufferedReader br = new BufferedReader(reader);
-
-        try {
-            String line;
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
+            while (bufferedReader.readLine() != null) {
+                System.out.println(bufferedReader.readLine());
             }
+        } catch (FileNotFoundException e) {
+            System.out.println("Can`t read file by path" + path);
         } catch (IOException e) {
             System.err.println("Reading from file " + path + " failed");
-        } finally {
-            IOUtils.closeQuietly(br);
-            IOUtils.closeQuietly(reader);
         }
     }
 }
