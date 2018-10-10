@@ -18,8 +18,8 @@ public class UserDAO {
         return user;
     }
 
-    public void saveUsersToDb(ArrayList<User> users){
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("E:\\Games\\java\'User.txt"))){
+    public void saveUsersToDb(ArrayList<User> users) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("E:\\Games\\java\'User.txt"))) {
             bufferedWriter.write(String.valueOf(users));
         } catch (IOException e) {
             System.err.println("Can`t save Users to BD");
