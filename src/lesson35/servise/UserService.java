@@ -7,10 +7,7 @@ public class UserService {
 
     private UserDAO userDAO = new UserDAO();
 
-    public User registerUser(User user) {
-        //check business logic
-        //if logic is ok
-
+    public User registerUser(User user) throws Exception {
         return userDAO.registerUser(user);
     }
 }

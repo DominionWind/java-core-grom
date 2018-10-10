@@ -13,11 +13,18 @@ public class RoomDAO {
 
     HotelDAO hotelDAO = new HotelDAO();
 
-    public Room registerRoom(Room room) throws Exception {
+    public void addRoom(Room room) throws Exception {
+        hotelDAO.checkAdmin();
         ArrayList<Room> rooms = readRoomFromFile();
         rooms.add(room);
         saveRoomToDb(rooms);
-        return room;
+    }
+
+    public void deleteRoom(long roomId) throws Exception {
+        hotelDAO.checkAdmin();
+        ArrayList<Room> rooms = readRoomFromFile();
+        rooms.remove(getRoomById(roomId));
+        saveRoomToDb(rooms);
     }
 
     public void saveRoomToDb(ArrayList<Room> rooms){

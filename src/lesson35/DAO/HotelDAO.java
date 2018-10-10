@@ -1,24 +1,31 @@
 package lesson35.DAO;
 
+import lesson35.Login.Start;
 import lesson35.model.Hotel;
+import lesson35.model.UserType;
 
 import java.io.*;
 import java.util.ArrayList;
 
 public class HotelDAO {
-    public Hotel addHotel(Hotel hotel) {
-        return hotel;
-    }
 
-    public Hotel registerHotel(Hotel hotel) throws Exception{
+    Start start = new Start();
+
+    public void addHotel(Hotel hotel) throws Exception{
+        checkAdmin();
         ArrayList<Hotel> hotels = readHotelFromFile();
         hotels.add(hotel);
         saveHotelsToDb(hotels);
-        return hotel;
     }
 
+    public void deleteHotel(long hotelId) throws Exception {
+        checkAdmin();
+        ArrayList<Hotel>hotels = readHotelFromFile();
+        hotels.remove(getHotelById(hotelId));
+        saveHotelsToDb(hotels);
+    }
 
-    public void saveHotelsToDb (ArrayList<Hotel> hotels){
+    public void saveHotelsToDb (ArrayList<Hotel> hotels) throws Exception {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("E:\\Games\\java\'Hotel.txt"))){
             bw.write(String.valueOf(hotels));
         } catch (IOException e) {
@@ -27,6 +34,7 @@ public class HotelDAO {
     }
 
     public Hotel getHotelById(Long id) throws Exception {
+        checkAdmin();
         for (Hotel h : readHotelFromFile()) {
             if (h.getId() == id) {
                 return h;
@@ -102,4 +110,9 @@ public class HotelDAO {
         }
     }
 
+    public void checkAdmin() throws Exception {
+        if (start.getLoggedInUser().getType()!= UserType.ADMIN){
+            throw new Exception ("User " + start.getLoggedInUser().getUserName() + " don`t have rights for this operation. Please contact the administrator");
+        }
+    }
 }
