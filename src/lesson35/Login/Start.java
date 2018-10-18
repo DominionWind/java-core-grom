@@ -2,18 +2,31 @@ package lesson35.Login;
 
 import lesson35.DAO.UserDAO;
 import lesson35.model.User;
+import lesson35.model.UserType;
+import lesson35.servise.UserService;
 
 import java.io.*;
 import java.util.Scanner;
 
 public class Start {
     UserDAO userDAO = new UserDAO();
+    UserService userService = new UserService();
+
+    public User regUser() throws Exception {
+        long id = userService.createUniqueId();
+        String username = printUserName();
+        String password = printUserPassword();
+        String country = printUserCountry();
+        User user = new User(id,username,password,country, UserType.USER);
+        return user;
+    }
 
     public void login() throws Exception {
         String username = printUserName();
         String password = printUserPassword();
 
         validateUserNameAndPassword(username, password);
+
         saveLoggedInUser(userDAO.getUserByName(username));
     }
 
@@ -56,6 +69,13 @@ public class Start {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Print password");
         return userPassword = scanner.nextLine();
+    }
+
+    private String printUserCountry() {
+        String username;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Print Country");
+        return username = scanner.nextLine();
     }
 
     private void validateUserNameAndPassword(String username, String password) throws Exception {

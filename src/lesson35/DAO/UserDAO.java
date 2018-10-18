@@ -8,21 +8,28 @@ import java.util.ArrayList;
 
 public class UserDAO {
 
+
     //считывание данных - считывание файла
     //обработка данных - обработка данных, маппинг данных
 
-    public User registerUser(User user) throws Exception {
-        ArrayList<User> users = readUserFromFile();
-        users.add(user);
-        saveUsersToDb(users);
+    public User registerUser(User user) {
+        writeUserToDb(user);
         return user;
     }
 
-    public void saveUsersToDb(ArrayList<User> users) {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("E:\\Games\\java\'User.txt"))) {
-            bufferedWriter.write(String.valueOf(users));
+    private void writeUserToDb(User user) {
+        try (BufferedWriter br = new BufferedWriter(new FileWriter("E:\\Games\\java\'User.txt", true))) {
+            br.newLine();
+            br.write(user.toString());
         } catch (IOException e) {
             System.err.println("Can`t save Users to BD");
+        }
+    }
+
+    public void saveUsersToDb(ArrayList<User> users) throws FileNotFoundException {
+        deleteContentFromDb();
+        for (User u : users) {
+            writeUserToDb(u);
         }
     }
 
@@ -58,7 +65,6 @@ public class UserDAO {
                 new FileReader("E:\\Games\\java\'User.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                userValidator(line);
                 users.add(stringToUserConvector(line));
             }
         } catch (IOException e) {
@@ -83,28 +89,9 @@ public class UserDAO {
         return user;
     }
 
-    private void userValidator(String line) throws Exception {
-
-        String[] text = line.split(",");
-
-        if (text.length != 4) {
-            throw new Exception("File User.txt broken. Collapse.");
-        }
-
-        if (text[1] == null) {
-            throw new Exception("field User name is empty. ID " + text[0]);
-        }
-
-        if (text[2] == null) {
-            throw new Exception("field password is empty. ID " + text[0]);
-        }
-
-        if (text[3] == null) {
-            throw new Exception("field country is empty. ID " + text[0]);
-        }
-
-        if (UserType.valueOf(text[4]) != UserType.ADMIN && UserType.valueOf(text[4]) != UserType.USER) {
-            throw new Exception("field UserType is wrong. ID " + text[0]);
-        }
+    private void deleteContentFromDb() throws FileNotFoundException {
+        PrintWriter writer = new PrintWriter("E:\\Games\\java\'User.txt");
+        writer.print("");
+        writer.close();
     }
 }
