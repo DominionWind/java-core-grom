@@ -1,40 +1,39 @@
 package lesson35.DAO;
 
-import lesson35.Login.Start;
 import lesson35.model.Hotel;
-import lesson35.model.UserType;
 
 import java.io.*;
 import java.util.ArrayList;
 
 public class HotelDAO {
 
-    Start start = new Start();
-
-    public void addHotel(Hotel hotel) throws Exception{
-        checkAdmin();
-        ArrayList<Hotel> hotels = readHotelFromFile();
-        hotels.add(hotel);
-        saveHotelsToDb(hotels);
+    public void addHotel(Hotel hotel) {
+        writeHotelToDB(hotel);
     }
 
     public void deleteHotel(long hotelId) throws Exception {
-        checkAdmin();
-        ArrayList<Hotel>hotels = readHotelFromFile();
+        ArrayList<Hotel> hotels = readHotelFromFile();
         hotels.remove(getHotelById(hotelId));
         saveHotelsToDb(hotels);
     }
 
-    public void saveHotelsToDb (ArrayList<Hotel> hotels) throws Exception {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("E:\\Games\\java\'Hotel.txt"))){
-            bw.write(String.valueOf(hotels));
+    private void writeHotelToDB(Hotel hotel) {
+        try (BufferedWriter br = new BufferedWriter(new FileWriter("E:\\Games\\java\'Hotel.txt", true))) {
+            br.newLine();
+            br.write(hotel.toString());
         } catch (IOException e) {
-            System.err.println("Can`t save Hotels to BD");
+            System.err.println("Can`t save Hotel " + hotel.getName() + " to DB");
+        }
+    }
+
+    public void saveHotelsToDb(ArrayList<Hotel> hotels) throws Exception {
+        deleteHotelsFromDB();
+        for (Hotel h : hotels) {
+            writeHotelToDB(h);
         }
     }
 
     public Hotel getHotelById(Long id) throws Exception {
-        checkAdmin();
         for (Hotel h : readHotelFromFile()) {
             if (h.getId() == id) {
                 return h;
@@ -44,14 +43,28 @@ public class HotelDAO {
     }
 
     public Hotel findHotelByName(String name) throws Exception {
-        for (Hotel h: readHotelFromFile()){
+        for (Hotel h : readHotelFromFile()) {
             if (h.getName().equals(name))
                 return h;
         }
         throw new Exception("Can`t find Hotel whit name " + name);
     }
 
+    public ArrayList<Hotel> findHotelByCity(String city) throws Exception {
 
+        if (city.equals(null)) {
+            return null;
+        }
+
+        ArrayList<Hotel> hotels = new ArrayList<>();
+
+        for (Hotel h : readHotelFromFile()) {
+            if (h.getCity().equals(city)) {
+                hotels.add(h);
+            }
+        }
+        return hotels;
+    }
 
     public ArrayList<Hotel> readHotelFromFile() throws Exception {
 
@@ -60,7 +73,6 @@ public class HotelDAO {
         try (BufferedReader br = new BufferedReader(new FileReader("E:\\Games\\java\'Hotel.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                hotelValidator(line);
                 hotels.add(stringToHotelConvector(line));
             }
         } catch (IOException e) {
@@ -85,34 +97,9 @@ public class HotelDAO {
         return hotel;
     }
 
-    private void hotelValidator(String line) throws Exception {
-
-        String[] text = line.split(",");
-
-        if (text.length != 4) {
-            throw new Exception("File User.txt broken. Collapse.");
-        }
-
-        if (text[1] == null) {
-            throw new Exception("field Hotel name is empty. ID " + text[0]);
-        }
-
-        if (text[2] == null) {
-            throw new Exception("field Country is empty. ID " + text[0]);
-        }
-
-        if (text[3] == null) {
-            throw new Exception("field City is empty. ID " + text[0]);
-        }
-
-        if (text[4] == null) {
-            throw new Exception("field Street is empty. ID " + text[0]);
-        }
-    }
-
-    public void checkAdmin() throws Exception {
-        if (start.getLoggedInUser().getType()!= UserType.ADMIN){
-            throw new Exception ("User " + start.getLoggedInUser().getUserName() + " don`t have rights for this operation. Please contact the administrator");
-        }
+    private void deleteHotelsFromDB() throws FileNotFoundException {
+        PrintWriter writer = new PrintWriter("E:\\Games\\java\'Hotel.txt");
+        writer.print("");
+        writer.close();
     }
 }

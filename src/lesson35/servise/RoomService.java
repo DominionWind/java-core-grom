@@ -1,56 +1,82 @@
 package lesson35.servise;
 
-import lesson35.DAO.HotelDAO;
-import lesson35.DAO.OrderDAO;
-import lesson35.DAO.RoomDAO;
-import lesson35.DAO.UserDAO;
+import lesson35.DAO.*;
+import lesson35.Login.Utils;
 import lesson35.model.Hotel;
 import lesson35.model.Order;
 import lesson35.model.Room;
 import lesson35.model.User;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Scanner;
 
 public class RoomService {
-
 
     private RoomDAO roomDAO = new RoomDAO();
     private UserDAO userDAO = new UserDAO();
     private HotelDAO hotelDAO = new HotelDAO();
     private OrderDAO orderDAO = new OrderDAO();
+    private DAO dao = new DAO();
+    private Utils utils = new Utils();
 
-    public void bookRoom(long roomId, long userId, long hotelId) throws Exception { //todo
+    public void addRoom(Room room) throws Exception {
+        dao.checkAdminRights();
+        roomDAO.addRoom(room);
+    }
+
+    public void deleteRoom(long roomId) throws Exception {
+        dao.checkAdminRights();
+        roomDAO.deleteRoom(roomId);
+    }
+
+    public void bookRoom(long roomId, long userId, long hotelId) throws Exception {
         Room room = roomDAO.getRoomById(roomId);
         User user = userDAO.getUserById(userId);
         Hotel hotel = hotelDAO.getHotelById(hotelId);// Зачем нам отель? В ордере нет такой сущности.
-        Date date = new Date();
+        LocalDate date = LocalDate.now();
 
-        if (!room.getDateAvailableFrom().after(date)) {
+        if (room.getDateAvailableFrom().isBefore(date)) {
             throw new Exception("This room is not available now. Room will be available from " + room.getDateAvailableFrom());
         }
 
-        Long id = (long)Math.random();
-        Date dateFrom = new Date();//todo
-        Date dateTo = new Date();//todo
-        Double moneyPaid = dateTo.compareTo(dateFrom)*room.getPrice();//todo
+        Long id = utils.createUniqueId();
+        LocalDate dateFrom = utils.stringToDateConvector(printDate());
+        LocalDate dateTo = utils.stringToDateConvector(printDate());
+        Double moneyPaid = dateDiff(dateTo,dateFrom)*room.getPrice();
 
-
-        Order order = new Order(id, user, room, dateFrom, dateTo, moneyPaid) ;
-        ArrayList<Order> orders = orderDAO.readOrderFromFile();
-        orders.add(order);
-        orderDAO.saveOrdersToDb(orders);
+        Order order = new Order(id, user, room, dateFrom, dateTo, moneyPaid);
+        orderDAO.addOrder(order); //todo поменять на ордер.сервис. Дописать сервис ордеров
+        System.out.println(moneyPaid);
     }
 
-    public void cancelReservation(long roomId, long userId) throws Exception {
+    private int dateDiff(LocalDate dateTo, LocalDate dateFrom) throws Exception {
+        int dateDiff;
+        Period period = Period.between(dateTo, dateFrom);
+
+        dateDiff = period.getDays();
+
+        if (dateDiff == 0){
+            dateDiff = 1;
+        }
+
+        if (dateDiff<0){
+            throw new Exception("Please enter correct date");
+        }
+        return dateDiff;
+    }
+
+    private String printDate() {
+        String text;
+        System.out.println("Please enter date (dd/MM/yyyy)");
+        Scanner scanner = new Scanner(System.in);
+        return text = scanner.nextLine();
+    }
+
+    public void cancelReservation(long roomId, long userId) throws Exception {//todo
 
         Room room = roomDAO.getRoomById(roomId);
         User user = userDAO.getUserById(userId);
 
-        //todo
-
-
     }
-
-
 }

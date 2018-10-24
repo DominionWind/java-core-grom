@@ -1,17 +1,17 @@
 package lesson35.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Filter {
     private int numbersOfGuests;
     private double price;
     private boolean breakfastIncluded;
     private boolean petsAllowed;
-    private Date dateAvailableFrom;
+    private LocalDate dateAvailableFrom;
     private String country;
     private String city;
 
-    public Filter(int numbersOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed, Date dateAvailableFrom, String country, String city) {
+    public Filter(int numbersOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed, LocalDate dateAvailableFrom, String country, String city) {
         this.numbersOfGuests = numbersOfGuests;
         this.price = price;
         this.breakfastIncluded = breakfastIncluded;
@@ -37,7 +37,7 @@ public class Filter {
         return petsAllowed;
     }
 
-    public Date getDateAvailableFrom() {
+    public LocalDate getDateAvailableFrom() {
         return dateAvailableFrom;
     }
 

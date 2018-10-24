@@ -11,23 +11,25 @@ import java.util.Scanner;
 public class Start {
     UserDAO userDAO = new UserDAO();
     UserService userService = new UserService();
+    Utils utils = new Utils();
 
     public User regUser() throws Exception {
-        long id = userService.createUniqueId();
+        long id = utils.createUniqueId();
         String username = printUserName();
         String password = printUserPassword();
         String country = printUserCountry();
-        User user = new User(id,username,password,country, UserType.USER);
+        User user = new User(id, username, password, country, UserType.USER);
+        userService.registerUser(user);
         return user;
     }
 
     public void login() throws Exception {
-        String username = printUserName();
+        String userName = printUserName();
         String password = printUserPassword();
 
-        validateUserNameAndPassword(username, password);
+        validateUserNameAndPassword(userName, password);
 
-        saveLoggedInUser(userDAO.getUserByName(username));
+        saveLoggedInUser(userDAO.getUserByName(userName));
     }
 
     public void logout() {
@@ -58,24 +60,24 @@ public class Start {
     }
 
     private String printUserName() {
-        String username;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Print login");
-        return username = scanner.nextLine();
+        System.out.println("Print UserName");
+        return printText();
     }
 
     private String printUserPassword() {
-        String userPassword;
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Print password");
-        return userPassword = scanner.nextLine();
+        return printText();
     }
 
-    private String printUserCountry() {
-        String username;
-        Scanner scanner = new Scanner(System.in);
+    private String printUserCountry(){
         System.out.println("Print Country");
-        return username = scanner.nextLine();
+        return printText();
+    }
+
+    private String printText() {
+        String text;
+        Scanner scanner = new Scanner(System.in);
+        return text = scanner.nextLine();
     }
 
     private void validateUserNameAndPassword(String username, String password) throws Exception {

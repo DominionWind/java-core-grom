@@ -1,27 +1,22 @@
 package lesson35.servise;
 
 import lesson35.DAO.UserDAO;
-import lesson35.Login.Start;
 import lesson35.model.User;
 import lesson35.model.UserType;
 
 import java.io.File;
-import java.util.UUID;
 
 public class UserService {
 
     private UserDAO userDAO = new UserDAO();
-    private Start start = new Start();
 
-    public User registerUser() throws Exception {
-        User user = start.regUser();
+    public User registerUser(User user) throws Exception {
         userCheck(user);
         userValidator(user);
 
-        userDAO.registerUser(user);
+        userDAO.saveUserToDB(user);
         return user;
     }
-
 
     private void userCheck(User user) throws Exception {
         for (User u : userDAO.readUserFromFile()) {
@@ -53,13 +48,7 @@ public class UserService {
 
     public void rightValidation(User user) throws Exception {
         if (!user.getType().equals(UserType.ADMIN)) {
-            throw new Exception("User " + user.getUserName() + " don`t have enough rights. Contact with administratorenou");
+            throw new Exception("User " + user.getUserName() + " don`t have enough rights. Contact with administrator");
         }
     }
-
-    public long createUniqueId() {
-        long id;
-        return id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
-    }
-
 }

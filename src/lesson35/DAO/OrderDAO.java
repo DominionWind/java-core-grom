@@ -1,23 +1,50 @@
 package lesson35.DAO;
 
+import lesson35.Login.Utils;
 import lesson35.model.Order;
-import lesson35.model.User;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class OrderDAO {
 
     private UserDAO userDAO = new UserDAO();
     private RoomDAO roomDAO = new RoomDAO();
+    private Utils utils = new Utils();
 
-    public ArrayList<Order> readOrderFromFile() throws Exception {
+    public void addOrder(Order order) throws Exception {
+        writeOrderToDB(order);
+    }
+
+    public void deleteOrder(long id) throws Exception {
+        ArrayList<Order> orders = readOrderFromFile();
+        orders.remove(getOrderById(id));
+        saveOrdersToDb(orders);
+    }
+
+    public Order getOrderById(Long id) throws Exception {
+        for (Order o : readOrderFromFile()) {
+            if (o.getId() == id) {
+                return o;
+            }
+        }
+        throw new Exception("Can`t find Order whit ID " + id);
+    }
+
+    private void saveOrdersToDb(ArrayList<Order> orders) throws Exception {
+        deleteOrdersFromBD();
+        for (Order o : orders) {
+            writeOrderToDB(o);
+        }
+    }
+
+    private ArrayList<Order> readOrderFromFile() throws Exception {
 
         ArrayList<Order> orders = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(
-                new FileReader("E:\\Games\\java\'Order.txt"))) {
+                new FileReader("E:\\Games\\java\\Order.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 orders.add(stringToOrderConvector(line));
@@ -29,11 +56,12 @@ public class OrderDAO {
         return orders;
     }
 
-    public void saveOrdersToDb(ArrayList<Order> orders){
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("E:\\Games\\java\'Order.txt"))){
-            bufferedWriter.write(String.valueOf(orders));
+    private void writeOrderToDB(Order order) throws IOException {
+        try (BufferedWriter br = new BufferedWriter(new FileWriter("E:\\Games\\java\\Order.txt", true))) {
+            br.newLine();
+            br.write(order.toString());
         } catch (IOException e) {
-            System.err.println("Can`t save Users to BD");
+            System.err.println("Can`t save Order to DB");
         }
     }
 
@@ -43,8 +71,8 @@ public class OrderDAO {
         Long id = Long.parseLong(mod[0]);
         Long userId = Long.parseLong(mod[1]);
         Long room = Long.parseLong(mod[2]);
-        Date dateFrom = stringToDateConvector(mod[3]);
-        Date dateTo = stringToDateConvector(mod[4]);
+        LocalDate dateFrom = utils.stringToDateConvector(mod[3]);
+        LocalDate dateTo = utils.stringToDateConvector(mod[4]);
         Double money = Double.parseDouble(mod[5]);
 
         Order order = new Order(id, userDAO.getUserById(userId), roomDAO.getRoomById(room), dateFrom, dateTo, money);
@@ -52,12 +80,9 @@ public class OrderDAO {
         return order;
     }
 
-    private Date stringToDateConvector(String string) {
-        //todo
-
-        Date date = new Date();
-        return date;
+    private void deleteOrdersFromBD() throws FileNotFoundException {
+        PrintWriter writer = new PrintWriter("E:\\Games\\java\\Order.txt");
+        writer.print("");
+        writer.close();
     }
-
-
 }

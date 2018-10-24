@@ -6,44 +6,48 @@ import lesson35.model.Room;
 
 import java.io.*;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class RoomDAO {
 
     HotelDAO hotelDAO = new HotelDAO();
 
     public void addRoom(Room room) throws Exception {
-        hotelDAO.checkAdmin();
-        ArrayList<Room> rooms = readRoomFromFile();
-        rooms.add(room);
-        saveRoomToDb(rooms);
+        writeRoomToDB(room);
     }
 
     public void deleteRoom(long roomId) throws Exception {
-        hotelDAO.checkAdmin();
         ArrayList<Room> rooms = readRoomFromFile();
         rooms.remove(getRoomById(roomId));
-        saveRoomToDb(rooms);
+        saveRoomsToDb(rooms);
     }
 
-    public void saveRoomToDb(ArrayList<Room> rooms){
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter("E:\\Games\\java\'Room.txt"))){
-            bw.write(String.valueOf(rooms));
-        } catch (IOException e){
-        System.err.println("Can`t save Rooms to BD");
+    private void writeRoomToDB(Room room) {
+        try (BufferedWriter br = new BufferedWriter(new FileWriter("E:\\Games\\java\'Room.txt", true))) {
+            br.newLine();
+            br.write(room.toString());
+        } catch (IOException e) {
+            System.err.println("Can`t save Room with ID " + room.getId() + " to DB");
         }
     }
 
-    public ArrayList<Room> findRooms(Filter filter){
+    public void saveRoomsToDb(ArrayList<Room> rooms) throws FileNotFoundException {
+        deleteRoomsFromDB();
+        for (Room r:rooms){
+            writeRoomToDB(r);
+        }
+    }
+
+    public ArrayList<Room> findRooms(Filter filter) {
 
         //todo
         return null;
     }
 
     public Room getRoomById(long id) throws Exception {
-        for (Room r:readRoomFromFile()){
-            if (r.getId()==id){
+        for (Room r : readRoomFromFile()) {
+            if (r.getId() == id) {
                 return r;
             }
         }
@@ -57,7 +61,6 @@ public class RoomDAO {
         try (BufferedReader br = new BufferedReader(new FileReader("E:\\Games\\java\'Room.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                roomValidator(line);
                 rooms.add(stringToRoomConvector(line));
             }
         } catch (IOException e) {
@@ -76,7 +79,7 @@ public class RoomDAO {
         double price = Double.parseDouble(mod[2]);
         boolean breakfastIncluded = Boolean.parseBoolean(mod[3]);
         boolean petsAllowed = Boolean.parseBoolean(mod[4]);
-        Date dateAvailableFrom = Date.from(Instant.parse(mod[5]));
+        LocalDate dateAvailableFrom = LocalDate.from(Instant.parse(mod[5]));
         Hotel hotel = hotelDAO.getHotelById(Long.parseLong(mod[6]));
 
         Room room = new Room(id, numberOfGuests, price, breakfastIncluded, petsAllowed, dateAvailableFrom, hotel);
@@ -84,36 +87,13 @@ public class RoomDAO {
         return room;
     }
 
-    private void roomValidator(String line) throws Exception {
+    private void deleteRoomsFromDB() throws FileNotFoundException {
+        PrintWriter writer = new PrintWriter("E:\\Games\\java\'Room.txt");
+        writer.print("");
+        writer.close();
+    }
 
-        String[] text = line.split(",");
-
-        if (text.length != 6) {
-            throw new Exception("File Room.txt broken. Collapse.");
-        }
-
-        if (text[1] == null) {
-            throw new Exception("field numberOfGuests name is empty. ID " + text[0]);
-        }
-
-        if (text[2] == null) {
-            throw new Exception("field price is empty. ID " + text[0]);
-        }
-
-        if (text[3] == null) {
-            throw new Exception("field breakfastIncluded is empty. ID " + text[0]);
-        }
-
-        if (text[4] == null) {
-            throw new Exception("field petsAllowed is empty. ID " + text[0]);
-        }
-
-        if (text[5] == null) {
-            throw new Exception("field dateAvailableFrom is empty. ID " + text[0]);
-        }
-
-        if (text[6] == null) {
-            throw new Exception("field Hotel is empty. ID " + text[0]);
-        }
+    private void setDate(Room room, LocalDate date){//todo
+        room.setDateAvailableFrom(date);
     }
 }

@@ -8,11 +8,7 @@ import java.util.ArrayList;
 
 public class UserDAO {
 
-
-    //считывание данных - считывание файла
-    //обработка данных - обработка данных, маппинг данных
-
-    public User registerUser(User user) {
+    public User saveUserToDB(User user) {
         writeUserToDb(user);
         return user;
     }
@@ -22,10 +18,11 @@ public class UserDAO {
             br.newLine();
             br.write(user.toString());
         } catch (IOException e) {
-            System.err.println("Can`t save Users to BD");
+            System.err.println("Can`t save User " + user.getUserName() + " to DB");
         }
     }
 
+    // Непонятно, нужен ли метод ниже. Пока пусть будет
     public void saveUsersToDb(ArrayList<User> users) throws FileNotFoundException {
         deleteContentFromDb();
         for (User u : users) {

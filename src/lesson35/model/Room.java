@@ -1,6 +1,6 @@
 package lesson35.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Room {
     private long id;
@@ -8,10 +8,10 @@ public class Room {
     private double price;
     private boolean breakfastIncluded;
     private boolean petsAllowed;
-    private Date dateAvailableFrom;
+    private LocalDate dateAvailableFrom;
     private Hotel hotel;
 
-    public Room(long id, int numbersOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed, Date dateAvailableFrom, Hotel hotel) {
+    public Room(long id, int numbersOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed, LocalDate dateAvailableFrom, Hotel hotel) {
         this.id = id;
         this.numbersOfGuests = numbersOfGuests;
         this.price = price;
@@ -61,11 +61,11 @@ public class Room {
         this.petsAllowed = petsAllowed;
     }
 
-    public Date getDateAvailableFrom() {
+    public LocalDate getDateAvailableFrom() {
         return dateAvailableFrom;
     }
 
-    public void setDateAvailableFrom(Date dateAvailableFrom) {
+    public void setDateAvailableFrom(LocalDate dateAvailableFrom) {
         this.dateAvailableFrom = dateAvailableFrom;
     }
 
@@ -88,37 +88,5 @@ public class Room {
                 ", dateAvailableFrom=" + dateAvailableFrom +
                 ", hotel=" + hotel +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Room)) return false;
-
-        Room room = (Room) o;
-
-        if (getId() != room.getId()) return false;
-        if (getNumbersOfGuests() != room.getNumbersOfGuests()) return false;
-        if (Double.compare(room.getPrice(), getPrice()) != 0) return false;
-        if (isBreakfastIncluded() != room.isBreakfastIncluded()) return false;
-        if (isPetsAllowed() != room.isPetsAllowed()) return false;
-        if (getDateAvailableFrom() != null ? !getDateAvailableFrom().equals(room.getDateAvailableFrom()) : room.getDateAvailableFrom() != null)
-            return false;
-        return getHotel() != null ? getHotel().equals(room.getHotel()) : room.getHotel() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = (int) (getId() ^ (getId() >>> 32));
-        result = 31 * result + getNumbersOfGuests();
-        temp = Double.doubleToLongBits(getPrice());
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (isBreakfastIncluded() ? 1 : 0);
-        result = 31 * result + (isPetsAllowed() ? 1 : 0);
-        result = 31 * result + (getDateAvailableFrom() != null ? getDateAvailableFrom().hashCode() : 0);
-        result = 31 * result + (getHotel() != null ? getHotel().hashCode() : 0);
-        return result;
     }
 }
