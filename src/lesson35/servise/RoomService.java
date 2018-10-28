@@ -43,11 +43,13 @@ public class RoomService {
         Long id = utils.createUniqueId();
         LocalDate dateFrom = utils.stringToDateConvector(printDate());
         LocalDate dateTo = utils.stringToDateConvector(printDate());
-        Double moneyPaid = dateDiff(dateTo,dateFrom)*room.getPrice();
+        Double moneyPaid = dateDiff(dateTo, dateFrom) * room.getPrice();
 
         Order order = new Order(id, user, room, dateFrom, dateTo, moneyPaid);
         orderDAO.addOrder(order); //todo поменять на ордер.сервис. Дописать сервис ордеров
-        System.out.println(moneyPaid);
+
+
+        System.out.println(room.toString() + moneyPaid);
     }
 
     private int dateDiff(LocalDate dateTo, LocalDate dateFrom) throws Exception {
@@ -56,11 +58,11 @@ public class RoomService {
 
         dateDiff = period.getDays();
 
-        if (dateDiff == 0){
+        if (dateDiff == 0) {
             dateDiff = 1;
         }
 
-        if (dateDiff<0){
+        if (dateDiff < 0) {
             throw new Exception("Please enter correct date");
         }
         return dateDiff;
@@ -68,15 +70,20 @@ public class RoomService {
 
     private String printDate() {
         String text;
-        System.out.println("Please enter date (dd/MM/yyyy)");
+        System.out.println("Please enter date (dd-MM-yyyy)");
         Scanner scanner = new Scanner(System.in);
         return text = scanner.nextLine();
     }
 
-    public void cancelReservation(long roomId, long userId) throws Exception {//todo
+    public void cancelReservation(long roomId, long userId) throws Exception {
 
         Room room = roomDAO.getRoomById(roomId);
         User user = userDAO.getUserById(userId);
 
+        for (Order o : orderDAO.readOrderFromFile()) {
+            if (o.getRoom().equals(room) && o.getUser().equals(user)) {
+                orderDAO.deleteOrder(o.getId());
+            }
+        }
     }
 }

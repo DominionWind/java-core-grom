@@ -1,7 +1,6 @@
 package lesson35.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Order {
     private long id;

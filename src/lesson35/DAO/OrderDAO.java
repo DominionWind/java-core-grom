@@ -2,6 +2,8 @@ package lesson35.DAO;
 
 import lesson35.Login.Utils;
 import lesson35.model.Order;
+import lesson35.model.Room;
+import lesson35.model.User;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -39,7 +41,7 @@ public class OrderDAO {
         }
     }
 
-    private ArrayList<Order> readOrderFromFile() throws Exception {
+    public ArrayList<Order> readOrderFromFile() throws Exception {
 
         ArrayList<Order> orders = new ArrayList<>();
 
@@ -59,7 +61,8 @@ public class OrderDAO {
     private void writeOrderToDB(Order order) throws IOException {
         try (BufferedWriter br = new BufferedWriter(new FileWriter("E:\\Games\\java\\Order.txt", true))) {
             br.newLine();
-            br.write(order.toString());
+            br.write(order.getId() + "," + order.getUser().getId() + "," + order.getRoom().getId() + "," +
+                    order.getDateFrom() + "," + order.getDateTo() + "," + order.getMoneyPaid());
         } catch (IOException e) {
             System.err.println("Can`t save Order to DB");
         }
