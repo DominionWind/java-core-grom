@@ -47,7 +47,7 @@ public class RoomService {
 
         Order order = new Order(id, user, room, dateFrom, dateTo, moneyPaid);
         orderDAO.addOrder(order); //todo поменять на ордер.сервис. Дописать сервис ордеров
-
+        updateRoomDate(roomId, dateTo);
 
         System.out.println(room.toString() + moneyPaid);
     }
@@ -75,15 +75,32 @@ public class RoomService {
         return text = scanner.nextLine();
     }
 
+    private void updateRoomDate(Long roomId, LocalDate date) throws Exception {
+        Room oldRoom = roomDAO.getRoomById(roomId);
+        Room newRoom = oldRoom;
+        newRoom.setDateAvailableFrom(date);
+
+        deleteRoom(roomId);
+        addRoom(newRoom);
+    }
+
     public void cancelReservation(long roomId, long userId) throws Exception {
 
         Room room = roomDAO.getRoomById(roomId);
         User user = userDAO.getUserById(userId);
+        Double moneyReturned = Double.valueOf(0);
 
-        for (Order o : orderDAO.readOrderFromFile()) {
-            if (o.getRoom().equals(room) && o.getUser().equals(user)) {
-                orderDAO.deleteOrder(o.getId());
+            for (Order o : orderDAO.readOrderFromFile()) {
+                if (o.getRoom().equals(room) && o.getUser().equals(user)) {
+                    orderDAO.deleteOrder(o.getId());
+                    updateRoomDate(roomId, LocalDate.now());
+                }
             }
+
+        if (dateDiff(room.getDateAvailableFrom(), LocalDate.now()) > 1){
+            moneyReturned = dateDiff(room.getDateAvailableFrom(), LocalDate.now())* room.getPrice();
         }
+
+        System.out.println(moneyReturned);
     }
 }
