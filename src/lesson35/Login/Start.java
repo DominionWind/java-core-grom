@@ -59,6 +59,10 @@ public class Start {
         return user;
     }
 
+    public void checkAdminRights() throws Exception {
+        userService.rightValidation(getLoggedInUser());
+    }
+
     private String printUserName() {
         System.out.println("Print UserName");
         return printText();
@@ -69,7 +73,7 @@ public class Start {
         return printText();
     }
 
-    private String printUserCountry(){
+    private String printUserCountry() {
         System.out.println("Print Country");
         return printText();
     }

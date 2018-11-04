@@ -1,6 +1,7 @@
 package lesson35.servise;
 
 import lesson35.DAO.*;
+import lesson35.Login.Start;
 import lesson35.Login.Utils;
 import lesson35.model.Hotel;
 import lesson35.model.Order;
@@ -17,16 +18,16 @@ public class RoomService {
     private UserDAO userDAO = new UserDAO();
     private HotelDAO hotelDAO = new HotelDAO();
     private OrderDAO orderDAO = new OrderDAO();
-    private DAO dao = new DAO();
+    private Start start = new Start();
     private Utils utils = new Utils();
 
     public void addRoom(Room room) throws Exception {
-        dao.checkAdminRights();
+        start.checkAdminRights();
         roomDAO.addRoom(room);
     }
 
     public void deleteRoom(long roomId) throws Exception {
-        dao.checkAdminRights();
+        start.checkAdminRights();
         roomDAO.deleteRoom(roomId);
     }
 
@@ -90,15 +91,15 @@ public class RoomService {
         User user = userDAO.getUserById(userId);
         Double moneyReturned = Double.valueOf(0);
 
-            for (Order o : orderDAO.readOrderFromFile()) {
-                if (o.getRoom().equals(room) && o.getUser().equals(user)) {
-                    orderDAO.deleteOrder(o.getId());
-                    updateRoomDate(roomId, LocalDate.now());
-                }
+        for (Order o : orderDAO.readOrderFromFile()) {
+            if (o.getRoom().equals(room) && o.getUser().equals(user)) {
+                orderDAO.deleteOrder(o.getId());
+                updateRoomDate(roomId, LocalDate.now());
             }
+        }
 
-        if (dateDiff(room.getDateAvailableFrom(), LocalDate.now()) > 1){
-            moneyReturned = dateDiff(room.getDateAvailableFrom(), LocalDate.now())* room.getPrice();
+        if (dateDiff(room.getDateAvailableFrom(), LocalDate.now()) > 1) {
+            moneyReturned = dateDiff(room.getDateAvailableFrom(), LocalDate.now()) * room.getPrice();
         }
 
         System.out.println(moneyReturned);

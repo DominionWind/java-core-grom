@@ -11,7 +11,28 @@ import java.util.ArrayList;
 
 public class RoomDAO {
 
+    DAO<Room> dao = new DAO<Room>() {
+        @Override
+        public Room convector(String string) throws Exception {
+            String[] mod = string.split(",");
+
+            long id = Long.parseLong(mod[0]);
+            int numberOfGuests = Integer.parseInt(mod[1]);
+            double price = Double.parseDouble(mod[2]);
+            boolean breakfastIncluded = Boolean.parseBoolean(mod[3]);
+            boolean petsAllowed = Boolean.parseBoolean(mod[4]);
+            LocalDate dateAvailableFrom = LocalDate.from(Instant.parse(mod[5]));
+            Hotel hotel = hotelDAO.getHotelById(Long.parseLong(mod[6]));
+
+            Room room = new Room(id, numberOfGuests, price, breakfastIncluded, petsAllowed, dateAvailableFrom, hotel);
+
+            return room;
+        }
+    };
+
     HotelDAO hotelDAO = new HotelDAO();
+
+    private String path = "E:\\Games\\java\'Room.txt";
 
     public void addRoom(Room room) throws Exception {
         writeRoomToDB(room);
@@ -24,17 +45,12 @@ public class RoomDAO {
     }
 
     private void writeRoomToDB(Room room) {
-        try (BufferedWriter br = new BufferedWriter(new FileWriter("E:\\Games\\java\'Room.txt", true))) {
-            br.newLine();
-            br.write(room.toString());
-        } catch (IOException e) {
-            System.err.println("Can`t save Room with ID " + room.getId() + " to DB");
-        }
+        dao.writerToFile(room, path);
     }
 
     public void saveRoomsToDb(ArrayList<Room> rooms) throws FileNotFoundException {
         deleteRoomsFromDB();
-        for (Room r:rooms){
+        for (Room r : rooms) {
             writeRoomToDB(r);
         }
     }
@@ -55,45 +71,14 @@ public class RoomDAO {
     }
 
     public ArrayList<Room> readRoomFromFile() throws Exception {
-
-        ArrayList<Room> rooms = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader("E:\\Games\\java\'Room.txt"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                rooms.add(stringToRoomConvector(line));
-            }
-        } catch (IOException e) {
-            System.err.println("Reading from file E:\\Games\\java\\Room.txt failed");
-        }
-
-        return rooms;
-    }
-
-    private Room stringToRoomConvector(String string) throws Exception {
-
-        String[] mod = string.split(",");
-
-        long id = Long.parseLong(mod[0]);
-        int numberOfGuests = Integer.parseInt(mod[1]);
-        double price = Double.parseDouble(mod[2]);
-        boolean breakfastIncluded = Boolean.parseBoolean(mod[3]);
-        boolean petsAllowed = Boolean.parseBoolean(mod[4]);
-        LocalDate dateAvailableFrom = LocalDate.from(Instant.parse(mod[5]));
-        Hotel hotel = hotelDAO.getHotelById(Long.parseLong(mod[6]));
-
-        Room room = new Room(id, numberOfGuests, price, breakfastIncluded, petsAllowed, dateAvailableFrom, hotel);
-
-        return room;
+        return dao.readFromFile(path);
     }
 
     private void deleteRoomsFromDB() throws FileNotFoundException {
-        PrintWriter writer = new PrintWriter("E:\\Games\\java\'Room.txt");
-        writer.print("");
-        writer.close();
+        dao.deleteContent(path);
     }
 
-    private void setDate(Room room, LocalDate date){//todo
+    private void setDate(Room room, LocalDate date) {//todo
         room.setDateAvailableFrom(date);
     }
 }

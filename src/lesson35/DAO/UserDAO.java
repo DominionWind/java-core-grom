@@ -8,25 +8,39 @@ import java.util.ArrayList;
 
 public class UserDAO {
 
-    public User saveUserToDB(User user) {
-        writeUserToDb(user);
-        return user;
+    private DAO<User> dao = new DAO<User>() {
+        @Override
+        public User convector(String string) {
+            String[] mod = string.split(",");
+
+            long id = Long.parseLong(mod[0]);
+            String userName = mod[1];
+            String password = mod[2];
+            String country = mod[3];
+            UserType userType = UserType.valueOf(mod[4]);
+
+            User user = new User(id, userName, password, country, userType);
+
+            return user;
+        }
+    };
+
+    private String path = "E:\\Games\\java\'User.txt";
+
+    public String getPath() {
+        return path;
     }
 
-    private void writeUserToDb(User user) {
-        try (BufferedWriter br = new BufferedWriter(new FileWriter("E:\\Games\\java\'User.txt", true))) {
-            br.newLine();
-            br.write(user.toString());
-        } catch (IOException e) {
-            System.err.println("Can`t save User " + user.getUserName() + " to DB");
-        }
+    public User saveUserToDB(User user) {
+        dao.writerToFile(user, path);
+        return user;
     }
 
     // Непонятно, нужен ли метод ниже. Пока пусть будет
     public void saveUsersToDb(ArrayList<User> users) throws FileNotFoundException {
         deleteContentFromDb();
         for (User u : users) {
-            writeUserToDb(u);
+            dao.writerToFile(u, path);
         }
     }
 
@@ -55,40 +69,10 @@ public class UserDAO {
     }
 
     public ArrayList<User> readUserFromFile() throws Exception {
-
-        ArrayList<User> users = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader("E:\\Games\\java\'User.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                users.add(stringToUserConvector(line));
-            }
-        } catch (IOException e) {
-            System.err.println("Reading from file E:\\Games\\java\\User.txt failed");
-        }
-
-        return users;
-    }
-
-    private User stringToUserConvector(String string) {
-
-        String[] mod = string.split(",");
-
-        long id = Long.parseLong(mod[0]);
-        String userName = mod[1];
-        String password = mod[2];
-        String country = mod[3];
-        UserType userType = UserType.valueOf(mod[4]);
-
-        User user = new User(id, userName, password, country, userType);
-
-        return user;
+        return dao.readFromFile(path);
     }
 
     private void deleteContentFromDb() throws FileNotFoundException {
-        PrintWriter writer = new PrintWriter("E:\\Games\\java\'User.txt");
-        writer.print("");
-        writer.close();
+        dao.deleteContent(path);
     }
 }

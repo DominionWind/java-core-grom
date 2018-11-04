@@ -7,6 +7,25 @@ import java.util.ArrayList;
 
 public class HotelDAO {
 
+    private DAO<Hotel> dao = new DAO<Hotel>() {
+        @Override
+        public Hotel convector(String string) throws Exception {
+            String[] mod = string.split(",");
+
+            long id = Long.parseLong(mod[0]);
+            String hotelName = mod[1];
+            String country = mod[2];
+            String city = mod[3];
+            String street = mod[4];
+
+            Hotel hotel = new Hotel(id, hotelName, country, city, street);
+
+            return hotel;
+        }
+    };
+
+    private String path = "E:\\Games\\java\\Hotel.txt";
+
     public void addHotel(Hotel hotel) {
         writeHotelToDB(hotel);
     }
@@ -18,12 +37,7 @@ public class HotelDAO {
     }
 
     private void writeHotelToDB(Hotel hotel) {
-        try (BufferedWriter br = new BufferedWriter(new FileWriter("E:\\Games\\java\'Hotel.txt", true))) {
-            br.newLine();
-            br.write(hotel.toString());
-        } catch (IOException e) {
-            System.err.println("Can`t save Hotel " + hotel.getName() + " to DB");
-        }
+        dao.writerToFile(hotel, path);
     }
 
     public void saveHotelsToDb(ArrayList<Hotel> hotels) throws Exception {
@@ -67,39 +81,10 @@ public class HotelDAO {
     }
 
     public ArrayList<Hotel> readHotelFromFile() throws Exception {
-
-        ArrayList<Hotel> hotels = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader("E:\\Games\\java\'Hotel.txt"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                hotels.add(stringToHotelConvector(line));
-            }
-        } catch (IOException e) {
-            System.err.println("Reading from file E:\\Games\\java\'Hotel.txt failed");
-        }
-
-        return hotels;
-    }
-
-    private Hotel stringToHotelConvector(String string) {
-
-        String[] mod = string.split(",");
-
-        long id = Long.parseLong(mod[0]);
-        String hotelName = mod[1];
-        String country = mod[2];
-        String city = mod[3];
-        String street = mod[4];
-
-        Hotel hotel = new Hotel(id, hotelName, country, city, street);
-
-        return hotel;
+        return dao.readFromFile(path);
     }
 
     private void deleteHotelsFromDB() throws FileNotFoundException {
-        PrintWriter writer = new PrintWriter("E:\\Games\\java\'Hotel.txt");
-        writer.print("");
-        writer.close();
+        dao.deleteContent(path);
     }
 }

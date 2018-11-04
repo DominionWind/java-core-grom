@@ -1,24 +1,33 @@
 package lesson35.servise;
 
-import lesson35.DAO.DAO;
 import lesson35.DAO.HotelDAO;
+import lesson35.Login.Start;
 import lesson35.model.Hotel;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class HotelService {
 
     private HotelDAO hotelDAO = new HotelDAO();
-    private DAO dao = new DAO();
+    private Start start = new Start();
 
     public void addHotel(Hotel hotel) throws Exception {
-        dao.checkAdminRights();
+        start.checkAdminRights();
         hotelDAO.addHotel(hotel);
     }
 
     public void deleteHotel(long hotelId) throws Exception {
-        dao.checkAdminRights();
+        start.checkAdminRights();
         hotelDAO.deleteHotel(hotelId);
+    }
+
+    public Hotel findHotelByName(String name) throws Exception {
+        return hotelDAO.findHotelByName(name);
+    }
+
+    public ArrayList<Hotel> findHotelByCity(String city) throws Exception {
+        return hotelDAO.findHotelByCity(city);
     }
 
     public Hotel registerHotel(Hotel hotel) throws Exception {
