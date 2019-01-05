@@ -11,7 +11,8 @@ public class Filter {
     private String country;
     private String city;
 
-    public Filter(int numbersOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed, LocalDate dateAvailableFrom, String country, String city) {
+    public Filter(int numbersOfGuests, double price, boolean breakfastIncluded, boolean petsAllowed,
+                  LocalDate dateAvailableFrom, String country, String city) {
         this.numbersOfGuests = numbersOfGuests;
         this.price = price;
         this.breakfastIncluded = breakfastIncluded;
