@@ -3,6 +3,7 @@ package lesson35.DAO;
 import lesson35.model.Filter;
 import lesson35.model.Room;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class FilterDAO {

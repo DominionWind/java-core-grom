@@ -12,6 +12,7 @@ public class RoomController {
     FilterDAO filterDAO = new FilterDAO();
 
     public ArrayList<Room> findRooms(Filter filter) throws Exception {
+
         return filterDAO.findRooms(filter);
     }
 

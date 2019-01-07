@@ -8,10 +8,14 @@ public abstract class DAO<T> {
     public void writerToFile(T t, String path) {
         try (BufferedWriter br = new BufferedWriter(new FileWriter(path, true))) {
             br.newLine();
-            br.write((String) t);
+            br.write(t.toString());
         } catch (IOException e) {
             System.err.println("Can`t save " + t + " to DB");
         }
+    }
+
+    public String objectToString(T t){
+        return t.toString();
     }
 
     public ArrayList<T> readFromFile(String path) throws Exception {
