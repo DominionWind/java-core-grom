@@ -16,6 +16,10 @@ public class DemoMain {
         Start start = new Start();
         Hotel hotel = new Hotel(20001, "Hotel1","UA","Kiev","AAA");
 
+        hotelDAO.addHotel(hotel);
+        hotelDAO.addHotel(hotel);
+        hotelDAO.addHotel(hotel);
+        hotelDAO.addHotel(hotel);
 
     }
 }

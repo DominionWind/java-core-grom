@@ -13,6 +13,7 @@ public class HomeWork1 {
     }
 
     public static long sum(int from, int to){
+
         return (long) (to * (to + 1) / 2 - from * (from + 1) / 2 + from);
     }
 }

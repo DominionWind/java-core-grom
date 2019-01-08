@@ -4,20 +4,20 @@ public class GeneralDAO<T> {
 
     private T[] DB = (T[]) new Object[10];
 
-    public T save(T t) throws Exception{
+    public T save(T t) throws Exception {
 
         if (t == null) {
             return null;
         }
 
         int freeSlotsCount = 0;
-        for (T el:DB){
-            if (el==null);
+        for (T el : DB) {
+            if (el == null) ;
             freeSlotsCount++;
         }
 
-        if (freeSlotsCount<=0){
-            throw new Exception("Not enought free slots in DB. Can`t save "+ t);
+        if (freeSlotsCount <= 0) {
+            throw new Exception("Not enough free slots in DB. Can`t save " + t);
         }
 
         for (int i = 0; i < DB.length; i++) {

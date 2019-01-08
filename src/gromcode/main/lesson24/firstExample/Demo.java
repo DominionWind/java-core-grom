@@ -1,6 +1,6 @@
 package gromcode.main.lesson24.firstExample;
 
-public class Demo <T>{
+public class  Demo <T>{
 
 //    private printUser(User user){
 //

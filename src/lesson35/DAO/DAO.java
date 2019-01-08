@@ -7,8 +7,8 @@ public abstract class DAO<T> {
 
     public void writerToFile(T t, String path) {
         try (BufferedWriter br = new BufferedWriter(new FileWriter(path, true))) {
-            br.newLine();
-            br.write(t.toString());
+            br.append(t.toString());
+            br.append("\r\n");
         } catch (IOException e) {
             System.err.println("Can`t save " + t + " to DB");
         }
