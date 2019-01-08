@@ -24,7 +24,7 @@ public class HotelDAO {
         }
     };
 
-    private String path = "E:\\Games\\java\\Hotel.txt";
+    private static String path = "E:\\Games\\java\\Hotel.txt";
 
     public void addHotel(Hotel hotel) {
         writeHotelToDB(hotel);

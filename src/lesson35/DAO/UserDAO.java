@@ -25,6 +25,20 @@ public class UserDAO {
         }
     };
 
+    public User convector(String string){
+        String[] mod = string.split(",");
+
+        long id = Long.parseLong(mod[0]);
+        String userName = mod[1];
+        String password = mod[2];
+        String country = mod[3];
+        UserType userType = UserType.valueOf(mod[4]);
+
+        User user = new User(id, userName, password, country, userType);
+
+        return user;
+    }
+
     private String path = "E:\\Games\\java\'User.txt";
 
     public String getPath() {

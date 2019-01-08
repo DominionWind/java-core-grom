@@ -33,7 +33,7 @@ public class OrderDAO {
         }
     };
 
-    private String path = "E:\\Games\\java\\Order.txt";
+    private static String path = "E:\\Games\\java\\Order.txt";
 
     public void addOrder(Order order) throws Exception {
         writeOrderToDB(order);

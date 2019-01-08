@@ -32,7 +32,7 @@ public class RoomDAO {
 
     HotelDAO hotelDAO = new HotelDAO();
 
-    private String path = "E:\\Games\\java\'Room.txt";
+    private static String path = "E:\\Games\\java\\Room.txt";
 
     public void addRoom(Room room) throws Exception {
         writeRoomToDB(room);

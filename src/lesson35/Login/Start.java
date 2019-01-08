@@ -13,6 +13,8 @@ public class Start {
     UserService userService = new UserService();
     Utils utils = new Utils();
 
+    private static String path = "E:\\Games\\java\\Login.txt";
+
     public User regUser() throws Exception {
         long id = utils.createUniqueId();
         String username = printUserName();
@@ -34,7 +36,7 @@ public class Start {
 
     public void logout() {
         try {
-            PrintWriter writer = new PrintWriter("E:\\Games\\java\\Login");
+            PrintWriter writer = new PrintWriter(path);
             writer.print("");
             writer.close();
             System.out.println("Logout successful");
@@ -43,18 +45,18 @@ public class Start {
         }
     }
 
+
     public User getLoggedInUser() throws IOException, ClassNotFoundException {
         User user = null;
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("E:\\Games\\java\\Login"));
-            user = (User) in.readObject();
-
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            user = userDAO.convector(br.toString());
         } catch (FileNotFoundException e) {
             System.err.printf("File does not exist");
         }
 
-        if (user == null)
-            throw new IOException("Operation failed. U should logged in first");
+//        if (user == null)
+//        throw new IOException("Operation failed. U should logged in first");
 
         return user;
     }
@@ -94,7 +96,7 @@ public class Start {
 
     private void saveLoggedInUser(User user) throws IOException {
         try {
-            ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream("E:\\Games\\java\\Login"));
+            ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(path));
             writer.writeObject(user);
             writer.close();
         } catch (FileNotFoundException e) {
