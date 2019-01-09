@@ -29,7 +29,8 @@ public class DemoMain {
 //        System.out.println(userDAO.readUserFromFile());
 //        System.out.println(userDAO.getUserById(10001));
 
-//        System.out.println(userDAO.readUserFromFile());
+        System.out.println(userDAO.readUserFromFile());
+        System.out.println(start.getLoggedInUser());
 
 
 //        System.out.println(start.getLoggedInUser());

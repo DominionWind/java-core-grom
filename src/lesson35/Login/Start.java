@@ -6,6 +6,7 @@ import lesson35.model.UserType;
 import lesson35.servise.UserService;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Start {
@@ -50,16 +51,17 @@ public class Start {
         User user = null;
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
-            user = userDAO.convector(br.toString());
+            user = userDAO.userConvector(br.toString());
         } catch (FileNotFoundException e) {
             System.err.printf("File does not exist");
         }
 
-//        if (user == null)
-//        throw new IOException("Operation failed. U should logged in first");
+        if (user == null)
+        throw new IOException("Operation failed. U should logged in first");
 
         return user;
     }
+
 
     public void checkAdminRights() throws Exception {
         userService.rightValidation(getLoggedInUser());
