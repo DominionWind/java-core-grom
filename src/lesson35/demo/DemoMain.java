@@ -22,12 +22,14 @@ public class DemoMain {
 //        hotelDAO.addHotel(hotel);
 //        hotelDAO.addHotel(hotel);
 //        hotelDAO.addHotel(hotel);
-
 //        System.out.println(hotelController.findHotelByName("Hotel1"));
 //        System.out.println(hotelController.findHotelByCity("Kiev"));
 
-//        System.out.println(userDAO.getUserById(10002));
-        System.out.println(userDAO.readUserFromFile());
+//        System.out.println(hotelDAO.readHotelFromFile());
+//        System.out.println(userDAO.readUserFromFile());
+//        System.out.println(userDAO.getUserById(10001));
+
+//        System.out.println(userDAO.readUserFromFile());
 
 
 //        System.out.println(start.getLoggedInUser());

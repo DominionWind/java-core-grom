@@ -17,29 +17,36 @@ public class UserDAO {
             String userName = mod[1];
             String password = mod[2];
             String country = mod[3];
-            UserType userType = UserType.valueOf(mod[4]);
 
-            User user = new User(id, userName, password, country, userType);
-
+            User user = new User(id, userName, password, country);
+            setUserType(user, mod[4]);
             return user;
         }
     };
 
-    public User convector(String string){
+    private void setUserType(User user, String string) {
+        if (string != "ADMIN") {
+            user.setType(UserType.USER);
+        } else {
+            user.setType(UserType.ADMIN);
+        }
+    }
+
+    public User convector(String string) {
         String[] mod = string.split(",");
 
         long id = Long.parseLong(mod[0]);
         String userName = mod[1];
         String password = mod[2];
         String country = mod[3];
-        UserType userType = UserType.valueOf(mod[4]);
 
-        User user = new User(id, userName, password, country, userType);
+        User user = new User(id, userName, password, country);
+        setUserType(user, mod[4]);
 
         return user;
     }
 
-    private String path = "E:\\Games\\java\'User.txt";
+    private String path = "E:\\Games\\java\\User.txt";
 
     public String getPath() {
         return path;
