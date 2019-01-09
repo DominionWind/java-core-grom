@@ -11,16 +11,7 @@ public class UserDAO {
     private DAO<User> dao = new DAO<User>() {
         @Override
         public User convector(String string) {
-            String[] mod = string.split(",");
-
-            long id = Long.parseLong(mod[0]);
-            String userName = mod[1];
-            String password = mod[2];
-            String country = mod[3];
-
-            User user = new User(id, userName, password, country);
-            setUserType(user, mod[4]);
-            return user;
+            return userConvector(string);
         }
     };
 
@@ -32,7 +23,7 @@ public class UserDAO {
         }
     }
 
-    public User convector(String string) {
+    public User userConvector(String string) {
         String[] mod = string.split(",");
 
         long id = Long.parseLong(mod[0]);
