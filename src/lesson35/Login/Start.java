@@ -88,7 +88,7 @@ public class Start {
         return text = scanner.nextLine();
     }
 
-    private void validateUserNameAndPassword(String username, String password) throws Exception {
+    public void validateUserNameAndPassword(String username, String password) throws Exception {
         if (!userDAO.getUserByName(username).getPassword().equals(password)) {
             throw new Exception("Login failed. Access denied");
         } else {
